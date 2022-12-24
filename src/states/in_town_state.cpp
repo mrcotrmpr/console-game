@@ -1,5 +1,6 @@
 #include "states/in_town_state.hpp"
 #include "states/buying_goods_state.hpp"
+#include "states/selling_goods_state.hpp"
 
 #include <iostream>
 #include "game.hpp"
@@ -13,6 +14,9 @@ void InTownState::handle(std::shared_ptr<Game> game, int input)
             break;
         case 2:
             game->set_state(std::make_shared<BuyingGoodsState>());
+            break;
+        case 3:
+            game->set_state(std::make_shared<SellingGoodsState>());
             break;
         case 9:
             game->stop();
