@@ -4,6 +4,7 @@
 #include "states/in_town_state.hpp"
 
 #include <utility>
+#include <iostream>
 
 Game::Game():
     _state(std::make_shared<InTownState>()),
@@ -28,6 +29,7 @@ void Game::start() {
 }
 
 void Game::stop() {
+    std::cout << "Goodbye!" << std::endl;
     _running = false;
 }
 

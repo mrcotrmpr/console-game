@@ -17,6 +17,7 @@ void InTownState::handle(std::shared_ptr<Game> game, int input)
             break;
         case 9:
             game->stop();
+            break;
         default:
             std::cout << "[EVENT] InTownState received invalid input: " << input << std::endl;
             break;

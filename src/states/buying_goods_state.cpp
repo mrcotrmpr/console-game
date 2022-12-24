@@ -11,6 +11,9 @@ void BuyingGoodsState::handle(std::shared_ptr<Game> game, int input)
             std::cout << "[NEW STATE] InTownState" << std::endl;
             game->set_state(std::make_shared<InTownState>());
             break;
+        case 9:
+            game->stop();
+            break;
         default:
             std::cout << "[EVENT] BuyingGoodsState received invalid input: " << input << std::endl;
             break;
