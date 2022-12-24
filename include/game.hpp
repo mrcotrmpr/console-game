@@ -6,7 +6,7 @@
 
 class State;
 
-class Game
+class Game : public std::enable_shared_from_this<Game>
 {
 public:
     Game();
@@ -14,7 +14,7 @@ public:
     void stop();
     void handle(int input);
     [[nodiscard]] bool is_running() const;
-    void set_state(State* state);
+    void set_state(std::shared_ptr<State> state);
     [[nodiscard]] std::shared_ptr<State> get_state() const;
 private:
     std::shared_ptr<State> _state;

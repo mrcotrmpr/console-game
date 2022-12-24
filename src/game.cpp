@@ -1,12 +1,14 @@
 #include "game.hpp"
+
+#include <utility>
 #include "states/state.hpp"
 #include "states/in_town_state.hpp"
 
 Game::Game():
     _state(std::make_shared<InTownState>()) {}
 
-void Game::set_state(State* state) {
-    _state = std::shared_ptr<State>(state);
+void Game::set_state(std::shared_ptr<State> state) {
+    _state = std::move(state);
 }
 
 std::shared_ptr<State> Game::get_state() const {
@@ -26,5 +28,5 @@ bool Game::is_running() const {
 }
 
 void Game::handle(int input) {
-    _state->handle(this, input);
+    _state->handle(shared_from_this(), input);
 }

@@ -4,15 +4,16 @@
 #include <iostream>
 #include "game.hpp"
 
-void InTownState::handle(Game* game, int input)
+void InTownState::handle(std::shared_ptr<Game> game, int input)
 {
     std::cout << "Handling in town state received: " << input << std::endl;
     switch (input) {
         case 1:
-            game->set_state(new BuyingGoodsState());
+            game->set_state(std::make_shared<BuyingGoodsState>());
             break;
         default:
             std::cout << "Invalid input: " << input << std::endl;
+            game->stop();
             break;
     }
 }

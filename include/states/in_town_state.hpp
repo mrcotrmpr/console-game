@@ -8,7 +8,8 @@ class InTownState : public State
 {
 public:
     InTownState() = default;
-    void handle(Game* game, int input) override;
+    void handle(std::shared_ptr<Game> game, int input) override;
+    ~InTownState() = default;
 };
 
 #endif //CPLUS_IN_TOWN_STATE_HPP
