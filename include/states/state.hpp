@@ -8,7 +8,7 @@ class Game;
 class State
 {
 public:
-    virtual void handle(std::shared_ptr<Game> game) = 0;
+    virtual void handle(Game* game, int input) = 0;
 };
 
 #endif //CPLUS_STATE_HPP

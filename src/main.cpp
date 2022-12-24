@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "game.hpp"
 #include "states/state.hpp"
 
@@ -7,8 +9,9 @@ int main() {
 
     while (game.is_running())
     {
-        game.get_state()->handle(std::make_shared<Game>(game));
-        game.stop();
+        int input;
+        std::cin >> input;
+        game.handle(input);
     }
     exit(0);
 }
