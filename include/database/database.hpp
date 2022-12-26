@@ -2,6 +2,7 @@
 #define CPLUS_DATABASE_HPP
 
 #include "memory"
+#include <string>
 
 class sqlite;
 

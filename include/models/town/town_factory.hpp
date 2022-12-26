@@ -2,6 +2,7 @@
 #define CPLUS_TOWN_FACTORY_HPP
 
 #include "memory"
+#include <string>
 
 class Town;
 
