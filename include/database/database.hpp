@@ -13,7 +13,7 @@ public:
     [[nodiscard]] static std::shared_ptr<sqlite3> get_connection();
 
     template<typename T>
-    T get_entity(const std::string& sql)
+    T get_entity(const std::string& sql, int id)
     {
         T entity;
         std::shared_ptr<sqlite3> db = get_connection();
@@ -27,6 +27,7 @@ public:
             }
             else
             {
+                sqlite3_bind_int(stmt, 1, id);
                 rc = sqlite3_step(stmt);
                 if (rc == SQLITE_ROW)
                 {
