@@ -1,6 +1,4 @@
-#include "models/town/town.hpp"
-
-Town::Town() : _town_id(0), _town_name("") {}
+#include "models/town.hpp"
 
 Town::Town(const int town_id, const std::string &town_name) :
     _town_id(town_id),
