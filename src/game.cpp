@@ -12,7 +12,6 @@ Game::Game():
     {}
 
 void Game::set_state(std::shared_ptr<State> state) {
-    std::cout << "[NEW STATE] " << typeid(*state).name() << std::endl;
     _state = std::move(state);
 }
 
@@ -39,5 +38,5 @@ bool Game::is_running() const {
 }
 
 void Game::handle(int input) {
-    _state->handle(shared_from_this(), input);
+    _state->handle(shared_from_this(), _printer, input);
 }

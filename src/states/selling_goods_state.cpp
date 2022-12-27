@@ -1,13 +1,15 @@
 #include "states/selling_goods_state.hpp"
 #include "states/in_town_state.hpp"
 #include "game.hpp"
+#include "ui/printer.hpp"
 
 #include <iostream>
 
-void SellingGoodsState::handle(std::shared_ptr<Game> game, int input)
+void SellingGoodsState::handle(std::shared_ptr<Game> game, std::shared_ptr<Printer> printer, int input)
 {
     switch (input) {
         case 0:
+            printer->print_in_town_menu();
             game->set_state(std::make_shared<InTownState>());
             break;
         case 9:
