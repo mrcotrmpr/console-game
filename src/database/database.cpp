@@ -18,17 +18,3 @@ std::shared_ptr<sqlite3> Database::get_connection()
     }
     return db;
 }
-
-template<typename T>
-inline T Database::get_entity(const std::string& sql)
-{
-    std::shared_ptr<sqlite3> db = get_connection();
-    if(db != nullptr)
-    {
-        std::cout << "No nullpointer!" << std::endl;
-    }
-    else
-    {
-        std::cerr << "It's a nullpointer" << std::endl;
-    }
-}

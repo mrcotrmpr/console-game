@@ -9,6 +9,8 @@ public:
     Town(const int town_id, const std::string& town_name);
     [[nodiscard]] int get_town_id() const;
     [[nodiscard]] std::string get_town_name() const;
+    void set_int_value(const char* column_name, int value);
+    void set_string_value(const char* column_name, std::string value);
 private:
     int _town_id;
     const std::string& _town_name;
