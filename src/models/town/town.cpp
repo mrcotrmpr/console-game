@@ -1,5 +1,6 @@
 #include "models/town/town.hpp"
 
+Town::Town() : _town_id(0), _town_name("") {}
 
 Town::Town(const int town_id, const std::string &town_name) :
     _town_id(town_id),
@@ -14,9 +15,9 @@ std::string Town::get_town_name() const {
 }
 
 void Town::set_int_value(const char* column_name, int value) {
-
+    _town_id = value;
 }
 
-void Town::set_string_value(const char* column_name, std::string value) {
-
+void Town::set_string_value(const char* column_name, const char* value) {
+    _town_name = std::string(value);
 }
