@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "game.hpp"
+#include "models/game.hpp"
 #include "states/state.hpp"
 
 int main() {

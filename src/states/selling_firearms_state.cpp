@@ -1,6 +1,6 @@
 #include "states/selling_firearms_state.hpp"
 #include "states/in_town_state.hpp"
-#include "game.hpp"
+#include "models/game.hpp"
 #include "ui/printer.hpp"
 
 #include <iostream>

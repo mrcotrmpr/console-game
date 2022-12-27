@@ -1,4 +1,4 @@
-#include "game.hpp"
+#include "models/game.hpp"
 #include "ui/printer.hpp"
 #include "states/state.hpp"
 #include "states/in_town_state.hpp"

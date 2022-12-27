@@ -8,7 +8,7 @@
 #include "states/picking_destination_state.hpp"
 
 #include <iostream>
-#include "game.hpp"
+#include "models/game.hpp"
 #include "ui/printer.hpp"
 
 void InTownState::handle(std::shared_ptr<Game> game, std::shared_ptr<Printer> printer, int input)
