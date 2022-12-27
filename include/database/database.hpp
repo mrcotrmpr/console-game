@@ -4,14 +4,14 @@
 #include "memory"
 #include <string>
 
-class sqlite;
+class sqlite3;
 
 class Database
 {
 public:
-    [[nodiscard]] std::shared_ptr<sqlite> get_connection() const;
+    [[nodiscard]] static std::shared_ptr<sqlite3> get_connection();
     template<typename T>
-    T get_entity(std::shared_ptr<sqlite>, const std::string sql);
+    T get_entity(const std::string& sql);
 };
 
 #endif //CPLUS_DATABASE_HPP
