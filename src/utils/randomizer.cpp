@@ -1,6 +1,6 @@
 #include "utils/randomizer.hpp"
 
-int Randomizer::get_int_between_values(const int first, const int second)
+int Randomizer::get_int_between_values(const int first, const int second) const
 {
 	std::uniform_int_distribution<int> dist{ first, second };
 	return dist(engine);
