@@ -1,11 +1,11 @@
-#include "states/buying_goods_state.hpp"
+#include "states/selling_firearms_state.hpp"
 #include "states/in_town_state.hpp"
 #include "game.hpp"
 #include "ui/printer.hpp"
 
 #include <iostream>
 
-void BuyingGoodsState::handle(std::shared_ptr<Game> game, std::shared_ptr<Printer> printer, int input)
+void SellingFirearmsState::handle(std::shared_ptr<Game> game, std::shared_ptr<Printer> printer, int input)
 {
     switch (input) {
         case 0:

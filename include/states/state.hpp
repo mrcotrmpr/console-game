@@ -4,11 +4,12 @@
 #include "memory"
 
 class Game;
+class Printer;
 
 class State
 {
 public:
-    virtual void handle(std::shared_ptr<Game> game, int input) = 0;
+    virtual void handle(std::shared_ptr<Game> game, std::shared_ptr<Printer> printer, int input) = 0;
 };
 
 #endif //CPLUS_STATE_HPP
