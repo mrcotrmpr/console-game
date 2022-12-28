@@ -2,6 +2,7 @@
 #include "models/game.hpp"
 #include "models/town.hpp"
 #include "models/wagon.hpp"
+#include "models/good.hpp"
 
 #include <iostream>
 
@@ -39,6 +40,13 @@ void Printer::print_buying_goods_menu()
     std::cout << "Buying goods" << std::endl << std::endl;
     std::cout << "[0] Return to town" << std::endl;
     std::cout << "[9] Quit the game" << std::endl;
+    std::cout << std::endl << "Current goods:" << std::endl;
+    for (auto good : _game->get_current_town()->get_goods())
+    {
+        std::cout << "[" << good->get_good_id() << "] " << good->get_good_name();
+        std::cout << " -- Amount: " << good->get_amount() << " kg";
+        std::cout << " -- Price: " << good->get_price() << " florin" << std::endl;
+    }
 }
 
 void Printer::print_selling_goods_menu()

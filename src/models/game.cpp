@@ -1,6 +1,7 @@
 #include "models/game.hpp"
 #include "models/town.hpp"
 #include "models/wagon.hpp"
+#include "models/good.hpp"
 #include "ui/printer.hpp"
 #include "states/state.hpp"
 #include "states/in_town_state.hpp"
@@ -38,8 +39,19 @@ std::shared_ptr<Wagon> Game::get_player() const {
 
 void Game::_init()
 {
-    _current_town = std::make_shared<Town>(_db->get_entity<Town>("SELECT * FROM steden WHERE id = ?", _random->get_int_between_values(1, 24)));
-    _player = std::make_shared<Wagon>(_db->get_entity<Wagon>("SELECT * FROM huifkarren WHERE id = ?", _random->get_int_between_values(1, 13)));
+    // Setup town
+    _current_town = _db->get_entity<Town>("SELECT * FROM steden WHERE id = ?", _random->get_int_between_values(1, 24));
+    _current_town->set_goods(_db->get_entities<Good>("SELECT goed_id, min_goed, max_goed, min_prijs, max_prijs FROM steden_goederen WHERE stad_id = ?", _current_town->get_town_id()));
+    for (auto good : _current_town->get_goods())
+    {
+        std::shared_ptr<Good> temp = _db->get_entity<Good>("SELECT * FROM goederen WHERE id = ?", good->get_good_id());
+        good->set_name(temp->get_good_name());
+        good->set_price(_random->get_int_between_values(good->get_min_price(), good->get_max_price()));
+        good->set_amount(_random->get_int_between_values(good->get_min_amount(), good->get_max_amount()));
+    }
+
+    // Setup player
+    _player = _db->get_entity<Wagon>("SELECT * FROM huifkarren WHERE id = ?", _random->get_int_between_values(1, 13));
     _player->set_florin(_random->get_int_between_values(1000, 2500));
     _printer->set_game(shared_from_this());
 }
