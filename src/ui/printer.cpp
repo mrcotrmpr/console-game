@@ -1,10 +1,22 @@
 #include "ui/printer.hpp"
+#include "models/game.hpp"
+#include "models/town.hpp"
+#include "models/wagon.hpp"
 
 #include <iostream>
 
-void Printer::print_resources() 
+void Printer::set_game(std::shared_ptr<Game> game)
 {
-    std::cout << std::endl << "Resources:" << std::endl;
+    _game = game;
+}
+
+void Printer::print_resources()
+{
+    print_in_town_menu();
+    std::cout << std::endl << "Current town: " << _game->get_current_town()->get_town_name() << std::endl;
+    std::cout << "Current wagon: " << _game->get_player()->get_wagon_type() << std::endl;
+    std::cout << "Current florin: " << _game->get_player()->get_florin() << std::endl;
+    std::cout << "Current health: " << _game->get_player()->get_health() << std::endl;
 }
 
 void Printer::print_in_town_menu() 
