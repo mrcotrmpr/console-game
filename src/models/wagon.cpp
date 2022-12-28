@@ -12,8 +12,23 @@ int Wagon::get_wagon_price() const {
     return _price;
 }
 
+int Wagon::get_florin() const
+{
+    return _florin;
+}
+
+int Wagon::get_health() const
+{
+    return _health;
+}
+
 std::string Wagon::get_wagon_type() const {
     return _wagon_type;
+}
+
+void Wagon::set_florin(const int amount)
+{
+    _florin = amount;
 }
 
 void Wagon::set_int_value(const char* column_name, int value) {
