@@ -25,11 +25,19 @@ void BuyingGoodsState::handle(std::shared_ptr<Game> game, std::shared_ptr<Printe
                 int amount;
                 std::cout << "Enter amount:" << std::endl;
                 std::cin >> amount;
-                if(good->get_amount() >= amount)
+                if(good->get_amount() >= amount && amount > 0)
                 {
-                    game->get_player()->add_good(good, amount);
-                    good->set_amount(good->get_amount() - amount);
-                    printer->print_in_harbor_menu();
+                    if (game->get_player()->get_florin() >= (good->get_price() * amount))
+                    {
+                        game->get_player()->add_good(good, amount);
+                        game->get_player()->set_florin(game->get_player()->get_florin() - good->get_price() * amount);
+                        good->set_amount(good->get_amount() - amount);
+                        printer->print_buying_goods_menu();
+                    }
+                    else
+                    {
+                        std::cout << "Not enough money available" << std::endl;
+                    }
                 }
                 else
                 {

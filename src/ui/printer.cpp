@@ -20,7 +20,14 @@ void Printer::print_resources()
     std::cout << std::endl << "Current harbor: " << _game->get_current_harbor()->get_harbor_name() << std::endl;
     std::cout << "Current ship: " << _game->get_player()->get_ship_type() << std::endl;
     std::cout << "Current florin: " << _game->get_player()->get_florin() << std::endl;
-    std::cout << "Current health: " << _game->get_player()->get_health() << std::endl;
+    std::cout << "Current health: " << _game->get_player()->get_health() << std::endl << std::endl;
+    std::cout << "Current goods: " << std::endl;
+    for (const auto& good : _game->get_player()->get_goods())
+    {
+        std::cout << "[" << good->get_good_id() << "] " << good->get_good_name();
+        std::cout << " -- Amount: " << good->get_amount() << " kg";
+        std::cout << " -- Price: " << good->get_price() << " florin" << std::endl;
+    }
 }
 
 void Printer::print_in_harbor_menu() 

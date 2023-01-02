@@ -36,20 +36,21 @@ std::vector<std::shared_ptr<Good>> Ship::get_goods() const {
     return _goods;
 }
 
-void Ship::add_good(const std::shared_ptr<Good>& new_good, int amount)
+void Ship::add_good(const std::shared_ptr<Good>& good, int amount)
 {
-    for(const auto& good : _goods)
+    for(const auto& g : _goods)
     {
-        if(good->get_good_id() == new_good->get_good_id())
+        if(g->get_good_id() == g->get_good_id())
         {
-            good->set_amount(good->get_amount() + amount);
-            good->set_price(good->get_price() + (new_good->get_price() * amount));
+            g->set_amount(g->get_amount() + amount);
+            g->set_price(g->get_price() + (good->get_price() * amount));
             _kg_used += amount;
             return;
         }
     }
+    auto new_good = std::make_shared<Good>(good->get_good_id(), good->get_good_name());
     new_good->set_amount(amount);
-    new_good->set_price(new_good->get_price() * amount);
+    new_good->set_price(good->get_price() * amount);
     _goods.push_back(new_good);
     _kg_used += amount;
 }
