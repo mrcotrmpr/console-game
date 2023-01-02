@@ -30,7 +30,7 @@ void BuyingGoodsState::handle(std::shared_ptr<Game> game, std::shared_ptr<Printe
                     if (game->get_player()->get_florin() >= (good->get_price() * amount))
                     {
                         game->get_player()->add_good(good, amount);
-                        game->get_player()->set_florin(game->get_player()->get_florin() - good->get_price() * amount);
+                        game->get_player()->set_florin(game->get_player()->get_florin() - (good->get_price() * amount));
                         good->set_amount(good->get_amount() - amount);
                         printer->print_buying_goods_menu();
                     }

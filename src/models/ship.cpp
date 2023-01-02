@@ -36,6 +36,17 @@ std::vector<std::shared_ptr<Good>> Ship::get_goods() const {
     return _goods;
 }
 
+std::shared_ptr<Good> Ship::get_good(int id) const {
+    for(auto good : _goods)
+    {
+        if(good->get_good_id() == id)
+        {
+            return good;
+        };
+    }
+    return nullptr;
+}
+
 void Ship::add_good(const std::shared_ptr<Good>& good, int amount)
 {
     for(const auto& g : _goods)
@@ -43,16 +54,34 @@ void Ship::add_good(const std::shared_ptr<Good>& good, int amount)
         if(g->get_good_id() == g->get_good_id())
         {
             g->set_amount(g->get_amount() + amount);
-            g->set_price(g->get_price() + (good->get_price() * amount));
+            g->set_price(g->get_price());
             _kg_used += amount;
             return;
         }
     }
     auto new_good = std::make_shared<Good>(good->get_good_id(), good->get_good_name());
     new_good->set_amount(amount);
-    new_good->set_price(good->get_price() * amount);
+    new_good->set_price(good->get_price());
     _goods.push_back(new_good);
     _kg_used += amount;
+}
+
+void Ship::remove_good(int id, int amount) {
+    for (const auto& g : _goods)
+    {
+        if (g->get_good_id() == id)
+        {
+            if (g->get_amount() - amount == 0)
+            {
+                _goods.erase(std::remove(_goods.begin(), _goods.end(), g), _goods.end());
+            }
+            else
+            {
+                g->set_amount(g->get_amount() - amount);
+            }
+        }
+    }
+    _kg_used -= amount;
 }
 
 void Ship::set_florin(const int amount)
