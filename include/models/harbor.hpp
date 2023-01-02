@@ -13,11 +13,12 @@ class Harbor : public SQLiteModel
 {
 public:
     Harbor() = default;
-    Harbor(int harbor_id, const std::string& harbor_name);
+    Harbor(int harbor_id, std::string  harbor_name);
     [[nodiscard]] int get_harbor_id() const;
     [[nodiscard]] std::string get_harbor_name() const;
     [[nodiscard]] std::vector <std::shared_ptr<Good>> get_goods() const;
-    void set_goods(std::vector<std::shared_ptr<Good>> goods);
+    [[nodiscard]] std::shared_ptr<Good> get_good(int id) const;
+    void set_goods(const std::vector<std::shared_ptr<Good>>& goods);
     void set_int_value(const char* column_name, int value) override;
     void set_string_value(const char* column_name, const char* value) override;
 private:
