@@ -1,8 +1,10 @@
+#include <utility>
+
 #include "models/cannon.hpp"
 
-Cannon::Cannon(const int cannon_id, const std::string &cannon_name) :
+Cannon::Cannon(int cannon_id, std::string cannon_name) :
         _cannon_id(cannon_id),
-        _cannon_name(cannon_name) {}
+        _cannon_name(std::move(cannon_name)) {}
 
 int Cannon::get_cannon_id() const {
     return _cannon_id;

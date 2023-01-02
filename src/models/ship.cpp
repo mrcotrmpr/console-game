@@ -1,8 +1,14 @@
 #include "models/ship.hpp"
+#include "models/good.hpp"
 
-Ship::Ship(const int ship_id, const std::string &ship_type) :
+#include "memory"
+#include <algorithm>
+#include <utility>
+#include <vector>
+
+Ship::Ship(const int ship_id, std::string ship_type) :
         _ship_id(ship_id),
-        _ship_type(ship_type) {}
+        _ship_type(std::move(ship_type)) {}
 
 int Ship::get_ship_id() const {
     return _ship_id;
@@ -24,6 +30,28 @@ int Ship::get_health() const
 
 std::string Ship::get_ship_type() const {
     return _ship_type;
+}
+
+std::vector<std::shared_ptr<Good>> Ship::get_goods() const {
+    return _goods;
+}
+
+void Ship::add_good(const std::shared_ptr<Good>& new_good, int amount)
+{
+    for(const auto& good : _goods)
+    {
+        if(good->get_good_id() == new_good->get_good_id())
+        {
+            good->set_amount(good->get_amount() + amount);
+            good->set_price(good->get_price() + (new_good->get_price() * amount));
+            _kg_used += amount;
+            return;
+        }
+    }
+    new_good->set_amount(amount);
+    new_good->set_price(new_good->get_price() * amount);
+    _goods.push_back(new_good);
+    _kg_used += amount;
 }
 
 void Ship::set_florin(const int amount)

@@ -18,6 +18,7 @@ public:
     void start();
     void stop();
     void handle(int input);
+    void init_harbor(int harbor_id);
     [[nodiscard]] bool is_running() const;
     void set_state(std::shared_ptr<State> state);
     [[nodiscard]] std::shared_ptr<State> get_state() const;

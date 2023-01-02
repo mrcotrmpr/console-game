@@ -1,9 +1,9 @@
 #include "models/good.hpp"
-#include <database/database.hpp>
+#include <utility>
 
-Good::Good(const int good_id, const std::string &good_name) :
+Good::Good(int good_id, std::string good_name) :
         _good_id(good_id),
-        _good_name(good_name) {}
+        _good_name(std::move(good_name)) {}
 
 int Good::get_good_id() const {
     return _good_id;
