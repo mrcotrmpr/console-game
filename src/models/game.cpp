@@ -40,8 +40,8 @@ std::shared_ptr<Ship> Game::get_player() const {
 void Game::_init()
 {
     // Setup harbor
-    _current_harbor = _db->get_entity<Harbor>("SELECT * FROM steden WHERE id = ?", _random->get_int_between_values(1, 24));
-    _current_harbor->set_goods(_db->get_entities<Good>("SELECT goed_id, min_goed, max_goed, min_prijs, max_prijs FROM steden_goederen WHERE stad_id = ?", _current_harbor->get_harbor_id()));
+    _current_harbor = _db->get_entity<Harbor>("SELECT * FROM havens WHERE id = ?", _random->get_int_between_values(1, 24));
+    _current_harbor->set_goods(_db->get_entities<Good>("SELECT goed_id, min_goed, max_goed, min_prijs, max_prijs FROM havens_goederen WHERE haven_id = ?", _current_harbor->get_harbor_id()));
     for (auto good : _current_harbor->get_goods())
     {
         std::shared_ptr<Good> temp = _db->get_entity<Good>("SELECT * FROM goederen WHERE id = ?", good->get_good_id());
@@ -51,7 +51,7 @@ void Game::_init()
     }
 
     // Setup player
-    _player = _db->get_entity<Ship>("SELECT * FROM huifkarren WHERE id = ?", _random->get_int_between_values(1, 13));
+    _player = _db->get_entity<Ship>("SELECT * FROM schepen WHERE id = ?", _random->get_int_between_values(1, 13));
     _player->set_florin(_random->get_int_between_values(1000, 2500));
     _printer->set_game(shared_from_this());
 }
