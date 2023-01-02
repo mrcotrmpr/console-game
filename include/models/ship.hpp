@@ -18,7 +18,9 @@ public:
     [[nodiscard]] int get_florin() const; 
     [[nodiscard]] int get_health() const; 
     [[nodiscard]] std::vector<std::shared_ptr<Good>> get_goods() const;
+    [[nodiscard]] std::shared_ptr<Good> get_good(int id) const;
     [[nodiscard]] std::string get_ship_type() const;
+    void remove_good(int id, int amount);
     void set_florin(int amount);
     void set_int_value(const char* column_name, int value) override;
     void set_string_value(const char* column_name, const char* value) override;

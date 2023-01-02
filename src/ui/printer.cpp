@@ -71,7 +71,7 @@ void Printer::print_selling_goods_menu()
     {
         std::cout << "[" << good->get_good_id() << "] " << good->get_good_name();
         std::cout << " -- Amount: " << good->get_amount() << " kg";
-        std::cout << " -- Price: " << good->get_price() << " florin" << std::endl;
+        std::cout << " -- Price: " << good->get_price() * good->get_amount() << " florin" << std::endl;
     }
 }
 
