@@ -8,7 +8,7 @@ class Good : public SQLiteModel
 {
 public:
     Good() = default;
-    Good(const int good_id, const std::string& good_name);
+    Good(int good_id, const std::string& good_name);
     [[nodiscard]] int get_good_id() const;
     [[nodiscard]] int get_price() const;
     [[nodiscard]] int get_amount() const;
@@ -17,8 +17,8 @@ public:
     [[nodiscard]] int get_min_price() const;
     [[nodiscard]] int get_max_price() const;
     [[nodiscard]] std::string get_good_name() const;
-    void set_price(const int price);
-    void set_amount(const int amount);
+    void set_price(int price);
+    void set_amount(int amount);
     void set_name(std::string name);
     void set_int_value(const char* column_name, int value) override;
     void set_string_value(const char* column_name, const char* value) override;

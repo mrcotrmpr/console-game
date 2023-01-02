@@ -7,7 +7,7 @@ std::shared_ptr<sqlite3> Database::get_connection()
 {
     std::shared_ptr<sqlite3> db = nullptr;
     sqlite3* db_ptr = nullptr;
-    if (sqlite3_open("huifkar.db", &db_ptr) != SQLITE_OK)
+    if (sqlite3_open("handelsschepen.db", &db_ptr) != SQLITE_OK)
     {
         sqlite3_close(db_ptr);
         std::cerr << "Error opening database file" << std::endl;

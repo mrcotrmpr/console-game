@@ -10,14 +10,14 @@ class Printer
 public:
     void set_game(std::shared_ptr<Game> game);
     void print_resources();
-    void print_in_town_menu();
-    void print_selling_goods_menu();
+    static void print_in_harbor_menu();
+    static void print_selling_goods_menu();
     void print_buying_goods_menu();
-    void print_selling_firearms_menu();
-    void print_buying_firearms_menu();
-    void print_buying_wagon_menu();
-    void print_repairing_wagon_menu();
-    void print_picking_destination_menu();
+    static void print_selling_cannons_menu();
+    static void print_buying_cannons_menu();
+    static void print_buying_ship_menu();
+    static void print_repairing_ship_menu();
+    static void print_picking_destination_menu();
 private:
     std::shared_ptr<Game> _game;
 };

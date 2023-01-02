@@ -1,27 +1,27 @@
-#include "models/firearm.hpp"
+#include "models/cannon.hpp"
 
-Firearm::Firearm(const int firearm_id, const std::string &firearm_name) :
-        _firearm_id(firearm_id),
-        _firearm_name(firearm_name) {}
+Cannon::Cannon(const int cannon_id, const std::string &cannon_name) :
+        _cannon_id(cannon_id),
+        _cannon_name(cannon_name) {}
 
-int Firearm::get_firearm_id() const {
-    return _firearm_id;
+int Cannon::get_cannon_id() const {
+    return _cannon_id;
 }
 
-int Firearm::get_firearm_price() const {
+int Cannon::get_cannon_price() const {
     return _price;
 }
 
-std::string Firearm::get_firearm_name() const {
-    return _firearm_name;
+std::string Cannon::get_cannon_name() const {
+    return _cannon_name;
 }
 
-void Firearm::set_int_value(const char* column_name, int value) {
+void Cannon::set_int_value(const char* column_name, int value) {
     std::string str_column_name = std::string(column_name);
 
     if (str_column_name == "id")
     {
-        _firearm_id = value;
+        _cannon_id = value;
     }
     else if (str_column_name == "min_aantal")
     {
@@ -45,6 +45,6 @@ void Firearm::set_int_value(const char* column_name, int value) {
     }
 }
 
-void Firearm::set_string_value(const char* column_name, const char* value) {
-    _firearm_name = std::string(value);
+void Cannon::set_string_value(const char* column_name, const char* value) {
+    _cannon_name = std::string(value);
 }

@@ -1,5 +1,5 @@
 #include "states/buying_goods_state.hpp"
-#include "states/in_town_state.hpp"
+#include "states/in_harbor_state.hpp"
 #include "models/game.hpp"
 #include "ui/printer.hpp"
 
@@ -9,8 +9,8 @@ void BuyingGoodsState::handle(std::shared_ptr<Game> game, std::shared_ptr<Printe
 {
     switch (input) {
         case 0:
-            printer->print_in_town_menu();
-            game->set_state(std::make_shared<InTownState>());
+            printer->print_in_harbor_menu();
+            game->set_state(std::make_shared<InHarborState>());
             break;
         case 9:
             game->stop();
