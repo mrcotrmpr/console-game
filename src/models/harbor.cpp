@@ -2,6 +2,7 @@
 
 #include "models/harbor.hpp"
 #include "models/good.hpp"
+#include "models/cannon.hpp"
 
 Harbor::Harbor(const int harbor_id, std::string harbor_name) :
     _harbor_id(harbor_id),
@@ -15,9 +16,13 @@ std::string Harbor::get_harbor_name() const {
     return _harbor_name;
 }
 
-std::vector<std::shared_ptr<Good>> Harbor::get_goods() const
-{
+std::vector<std::shared_ptr<Good>> Harbor::get_goods() const {
     return _goods;
+}
+
+
+std::vector<std::shared_ptr<Cannon>> Harbor::get_cannons() const {
+    return _cannons;
 }
 
 std::shared_ptr<Good> Harbor::get_good(int id) const {
@@ -31,9 +36,23 @@ std::shared_ptr<Good> Harbor::get_good(int id) const {
     return nullptr;
 }
 
-void Harbor::set_goods(const std::vector<std::shared_ptr<Good>>& goods)
-{
+std::shared_ptr<Cannon> Harbor::get_cannon(int id) const {
+    for(const auto& cannon : _cannons)
+    {
+        if(cannon->get_cannon_id() == id)
+        {
+            return cannon;
+        };
+    }
+    return nullptr;
+}
+
+void Harbor::set_goods(const std::vector<std::shared_ptr<Good>>& goods) {
     _goods = goods;
+}
+
+void Harbor::set_cannons(const std::vector<std::shared_ptr<Cannon>>& cannons) {
+    _cannons = cannons;
 }
 
 void Harbor::set_int_value(const char* column_name, int value) {
