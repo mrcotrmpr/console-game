@@ -1,17 +1,17 @@
-#include "states/in_town_state.hpp"
+#include "states/in_harbor_state.hpp"
 #include "states/buying_goods_state.hpp"
 #include "states/selling_goods_state.hpp"
-#include "states/buying_firearms_state.hpp"
-#include "states/selling_firearms_state.hpp"
-#include "states/buying_wagon_state.hpp"
-#include "states/repairing_wagon_state.hpp"
+#include "states/buying_cannons_state.hpp"
+#include "states/selling_cannons_state.hpp"
+#include "states/buying_ship_state.hpp"
+#include "states/repairing_ship_state.hpp"
 #include "states/picking_destination_state.hpp"
 
 #include <iostream>
 #include "models/game.hpp"
 #include "ui/printer.hpp"
 
-void InTownState::handle(std::shared_ptr<Game> game, std::shared_ptr<Printer> printer, int input)
+void InHarborState::handle(std::shared_ptr<Game> game, std::shared_ptr<Printer> printer, int input)
 {
     switch (input) {
         case 1:
@@ -26,20 +26,20 @@ void InTownState::handle(std::shared_ptr<Game> game, std::shared_ptr<Printer> pr
             game->set_state(std::make_shared<SellingGoodsState>());
             break;
         case 4:
-            printer->print_buying_firearms_menu();
-            game->set_state(std::make_shared<BuyingFirearmsState>());
+            printer->print_buying_cannons_menu();
+            game->set_state(std::make_shared<BuyingCannonsState>());
             break;
         case 5:
-            printer->print_selling_firearms_menu();
-            game->set_state(std::make_shared<SellingFirearmsState>());
+            printer->print_selling_cannons_menu();
+            game->set_state(std::make_shared<SellingCannonsState>());
             break;
         case 6:
-            printer->print_buying_wagon_menu();
-            game->set_state(std::make_shared<BuyingWagonState>());
+            printer->print_buying_ship_menu();
+            game->set_state(std::make_shared<BuyingShipState>());
             break;
         case 7:
-            printer->print_repairing_wagon_menu();
-            game->set_state(std::make_shared<RepairingWagonState>());
+            printer->print_repairing_ship_menu();
+            game->set_state(std::make_shared<RepairingShipState>());
             break;
         case 8:
             printer->print_picking_destination_menu();
