@@ -74,8 +74,10 @@ void Game::init_harbor(int harbor_id) {
 
     // Harbor destinations
     auto destinations = _db->get_entities<Destination>("SELECT * from afstanden WHERE haven1_id = ?", harbor_id);
-    auto destinations2 = _db->get_entities<Destination>("SELECT * from afstanden WHERE haven2_id = ?", harbor_id);
-    destinations.insert(destinations.end(), destinations2.begin(), destinations2.end());
+    if(destinations.empty())
+    {
+        destinations = _db->get_entities<Destination>("SELECT * from afstanden WHERE haven2_id = ?", harbor_id);
+    }
     _current_harbor->set_destinations(destinations);
     for(const auto& destination : _current_harbor->get_destinations())
     {
