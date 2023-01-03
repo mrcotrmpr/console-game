@@ -73,6 +73,14 @@ std::string Ship::get_specialty() const {
     return _specialty;
 }
 
+int Ship::get_fighting_state() const {
+    return _fighting;
+}
+
+void Ship::set_fighting_state(bool state) {
+    _fighting = state;
+}
+
 void Ship::set_specialty(const std::string &specialty) {
     _specialty = specialty;
 }
