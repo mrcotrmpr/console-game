@@ -168,6 +168,7 @@ void Printer::print_picking_destination_menu()
 
 void Printer::print_traveling_menu() {
     system("CLS");
-    std::cout << "Traveling" << std::endl << std::endl;
+    std::cout << "Traveling to " << _game->get_player()->get_destination()->get_name() << std::endl << std::endl;
+    std::cout << "[1] Start traveling" << std::endl;
     std::cout << "[9] Quit the game" << std::endl;
 }
