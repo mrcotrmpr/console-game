@@ -3,6 +3,7 @@
 #include "models/harbor.hpp"
 #include "models/ship.hpp"
 #include "models/good.hpp"
+#include "models/cannon.hpp"
 
 #include <iostream>
 #include <utility>
@@ -21,14 +22,24 @@ void Printer::print_resources()
     std::cout << "Current ship: " << _game->get_player()->get_ship_type() << std::endl;
     std::cout << "Current gold: " << _game->get_player()->get_gold() << std::endl;
     std::cout << "Current health: " << _game->get_player()->get_health() << std::endl << std::endl;
-    std::cout << "Current cargo space: " << _game->get_player()->get_goods_kg_used() << "/" << _game->get_player()->get_max_goods_kg() << std::endl << std::endl;
+
+    std::cout << "Current cargo space: " << _game->get_player()->get_goods_kg_used() << "/" << _game->get_player()->get_max_goods_kg() << std::endl;
     std::cout << "Current goods: " << std::endl;
     for (const auto& good : _game->get_player()->get_goods())
     {
         std::cout << "[" << good->get_good_id() << "] " << good->get_good_name();
         std::cout << " -- Amount: " << good->get_amount() << " kg";
-        std::cout << " -- Price: " << good->get_price() << " florin" << std::endl;
+        std::cout << " -- Value: " << good->get_price() * good->get_amount() << " gold" << std::endl;
     }
+    std::cout << std::endl << "Current cannons used: " << _game->get_player()->get_cannons_used() << "/" << _game->get_player()->get_max_cannons() << std::endl;
+    std::cout << "Current cannons: " << std::endl;
+    for (const auto& cannon : _game->get_player()->get_cannons())
+    {
+        std::cout << "[" << cannon->get_cannon_id() << "] " << cannon->get_cannon_name();
+        std::cout << " -- Amount: " << cannon->get_amount();
+        std::cout << " -- Value: " << cannon->get_cannon_price() * cannon->get_amount() << " gold" << std::endl;
+    }
+    
 }
 
 void Printer::print_in_harbor_menu() 
@@ -57,7 +68,7 @@ void Printer::print_buying_goods_menu()
     {
         std::cout << "[" << good->get_good_id() << "] " << good->get_good_name();
         std::cout << " -- Amount: " << good->get_amount() << " kg";
-        std::cout << " -- Price: " << good->get_price() << " florin" << std::endl;
+        std::cout << " -- Price: " << good->get_price() << " gold per kg" << std::endl;
     }
 }
 
@@ -66,13 +77,14 @@ void Printer::print_selling_goods_menu()
     system("CLS");
     std::cout << "Selling goods" << std::endl << std::endl;
     std::cout << "[0] Return to harbor" << std::endl;
+    std::cout << "[1] Sell goods" << std::endl;
     std::cout << "[9] Quit the game" << std::endl;
     std::cout << std::endl << "Current goods:" << std::endl;
     for (const auto& good : _game->get_player()->get_goods())
     {
         std::cout << "[" << good->get_good_id() << "] " << good->get_good_name();
         std::cout << " -- Amount: " << good->get_amount() << " kg";
-        std::cout << " -- Price: " << good->get_price() * good->get_amount() << " florin" << std::endl;
+        std::cout << " -- Value: " << good->get_price() * good->get_amount() << " gold total" << std::endl;
     }
 }
 
@@ -81,15 +93,30 @@ void Printer::print_buying_cannons_menu()
     system("CLS");
     std::cout << "Buying cannons" << std::endl << std::endl;
     std::cout << "[0] Return to harbor" << std::endl;
+    std::cout << "[1] Buy cannons" << std::endl;
     std::cout << "[9] Quit the game" << std::endl;
+    std::cout << std::endl << "Cannons in current harbor:" << std::endl;
+    for (const auto& cannon : _game->get_current_harbor()->get_cannons())
+    {
+        std::cout << "[" << cannon->get_cannon_id() << "] " << cannon->get_cannon_name();
+        std::cout << " -- Amount: " << cannon->get_amount();
+        std::cout << " -- Price: " << cannon->get_cannon_price() << " gold per cannon" << std::endl;
+    }
 }
 
-void Printer::print_selling_cannons_menu()
-{
+void Printer::print_selling_cannons_menu() {
     system("CLS");
     std::cout << "Selling cannons" << std::endl << std::endl;
     std::cout << "[0] Return to harbor" << std::endl;
+    std::cout << "[1] Sell cannons" << std::endl;
     std::cout << "[9] Quit the game" << std::endl;
+    std::cout << std::endl << "Current cannons:" << std::endl;
+    for (const auto& cannon : _game->get_player()->get_cannons())
+    {
+        std::cout << "[" << cannon->get_cannon_id() << "] " << cannon->get_cannon_name();
+        std::cout << " -- Amount: " << cannon->get_amount();
+        std::cout << " -- Value: " << cannon->get_cannon_price() * cannon->get_amount() << " gold total" << std::endl;
+    }
 }
 
 void Printer::print_buying_ship_menu()
