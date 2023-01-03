@@ -8,7 +8,7 @@ class Cannon : public SQLiteModel
 {
 public:
     Cannon() = default;
-    Cannon(int cannon_id, std::string  cannon_name);
+    Cannon(int cannon_id, std::string cannon_name);
     [[nodiscard]] int get_cannon_id() const;
     [[nodiscard]] int get_cannon_price() const;
     [[nodiscard]] int get_damage() const;

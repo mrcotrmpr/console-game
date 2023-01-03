@@ -18,9 +18,9 @@ int Ship::get_ship_price() const {
     return _price;
 }
 
-int Ship::get_florin() const
+int Ship::get_gold() const
 {
-    return _florin;
+    return _gold;
 }
 
 int Ship::get_max_goods_kg() const
@@ -71,7 +71,7 @@ void Ship::add_good(const std::shared_ptr<Good>& good, int amount)
 {
     for(const auto& g : _goods)
     {
-        if(g->get_good_id() == g->get_good_id())
+        if(g->get_good_id() == good->get_good_id())
         {
             g->set_amount(g->get_amount() + amount);
             g->set_price(g->get_price());
@@ -104,9 +104,9 @@ void Ship::remove_good(int id, int amount) {
     _goods_kg_used -= amount;
 }
 
-void Ship::set_florin(const int amount)
+void Ship::set_gold(const int amount)
 {
-    _florin = amount;
+    _gold = amount;
 }
 
 void Ship::set_int_value(const char* column_name, int value) {

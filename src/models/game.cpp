@@ -57,7 +57,7 @@ void Game::_init()
 
     // Setup player
     _player = _db->get_entity<Ship>("SELECT * FROM schepen WHERE id = ?", _random->get_int_between_values(1, 13));
-    _player->set_florin(_random->get_int_between_values(1000, 2500));
+    _player->set_gold(_random->get_int_between_values(100000, 250000));
 
     // Setup printer
     _printer->set_game(shared_from_this());

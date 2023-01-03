@@ -28,7 +28,7 @@ void SellingGoodsState::handle(std::shared_ptr<Game> game, std::shared_ptr<Print
                 if(good->get_amount() >= amount && amount > 0)
                 {
                     game->get_player()->remove_good(id, amount);
-                    game->get_player()->set_florin(game->get_player()->get_florin() + (amount * good->get_price()));
+                    game->get_player()->set_gold(game->get_player()->get_gold() + (amount * good->get_price()));
                     auto harbor_good = game->get_current_harbor()->get_good(id);
                     harbor_good->set_amount(harbor_good->get_amount() + amount);
                     printer->print_selling_goods_menu();
