@@ -5,6 +5,7 @@
 #include "state.hpp"
 
 class Randomizer;
+class Destination;
 
 class TravelingState : public State
 {

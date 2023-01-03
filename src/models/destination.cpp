@@ -24,8 +24,8 @@ void Destination::set_name(const std::string &name) {
     _destination_name = name;
 }
 
-void Destination::increase_turn() {
-    _turn++;
+void Destination::increase_turn(int turns) {
+    _turn += turns;
 }
 
 void Destination::set_int_value(const char *column_name, int value) {

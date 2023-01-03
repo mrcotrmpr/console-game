@@ -28,50 +28,104 @@ void TravelingState::handle(std::shared_ptr<Game> game, std::shared_ptr<Printer>
 
 void TravelingState::_handle_turns(const std::shared_ptr<Game> &game, const std::shared_ptr<Printer> &printer) {
     auto destination = game->get_player()->get_destination();
+    auto specialty = game->get_player()->get_specialty();
     int input;
+    bool alive = true;
 
-    while(destination->get_turn() != destination->get_distance())
+    while(destination->get_turn() < destination->get_distance() && alive)
     {
-        int number = _random->get_int_between_values(1,20);
-        switch (number) {
+        switch (_random->get_int_between_values(1,20)) {
             case (1,2):
-                std::cout << "Nothing happened. moving on" << std::endl;
-                destination->increase_turn();
+                std::cout << "The ship didn't move." << std::endl;
                 std::cout << "Turn: " << destination->get_turn() << "/" << destination->get_distance() << std::endl;
                 break;
             case (3,4):
-                std::cout << "Very light wind" << std::endl;
-                destination->increase_turn();
-                std::cout << "Turn: " << destination->get_turn() << "/" << destination->get_distance() << std::endl;
-                break;
+                if(specialty == "licht")
+                {
+                    std::cout << "Normal wind. 1 turn closer." << std::endl;
+                    destination->increase_turn(1);
+                    std::cout << "Turn: " << destination->get_turn() << "/" << destination->get_distance() << std::endl;
+                    break;
+                }
+                else
+                {
+                    std::cout << "The ship didn't move." << std::endl;
+                    std::cout << "Turn: " << destination->get_turn() << "/" << destination->get_distance() << std::endl;
+                    break;
+                }
             case (5,6,7):
-                std::cout << "Weak wind" << std::endl;
-                destination->increase_turn();
-                std::cout << "Turn: " << destination->get_turn() << "/" << destination->get_distance() << std::endl;
-                break;
+                if(specialty == "log")
+                {
+                    std::cout << "The ship didn't move." << std::endl;
+                    std::cout << "Turn: " << destination->get_turn() << "/" << destination->get_distance() << std::endl;
+                    break;
+                }
+                else
+                {
+                    std::cout << "Normal wind. 1 turn closer." << std::endl;
+                    destination->increase_turn(1);
+                    std::cout << "Turn: " << destination->get_turn() << "/" << destination->get_distance() << std::endl;
+                    break;
+                }
             case (8,9,10,11,12,13,14,15,16,17):
-                std::cout << "Normal wind" << std::endl;
-                destination->increase_turn();
+                std::cout << "Normal wind. 1 turn closer." << std::endl;
+                destination->increase_turn(1);
                 std::cout << "Turn: " << destination->get_turn() << "/" << destination->get_distance() << std::endl;
                 break;
             case (18,19):
-                std::cout << "Strong wind" << std::endl;
-                destination->increase_turn();
+                std::cout << "Strong wind. 2 turns closer." << std::endl;
+                destination->increase_turn(2);
                 std::cout << "Turn: " << destination->get_turn() << "/" << destination->get_distance() << std::endl;
                 break;
             case (20):
-                std::cout << "Storm" << std::endl;
-                destination->increase_turn();
-                std::cout << "Turn: " << destination->get_turn() << "/" << destination->get_distance() << std::endl;
+                game->get_player()->set_health(game->get_player()->get_health() - _random->get_int_between_values(0, game->get_player()->get_health()));
+                if(game->get_player()->get_health() > 0)
+                {
+                    std::cout << "You have encountered a storm and lost health." << std::endl;
+                    std::cout << "Remaining health: " << game->get_player()->get_health() << "/" << game->get_player()->get_max_health() << std::endl;
+                    switch (_random->get_int_between_values(1, 10)) {
+                        case (1, 2, 3, 4):
+                            std::cout << "[STORM] Blown off course. Will take 1 turn longer." << std::endl;
+                            destination->increase_turn(-1);
+                            break;
+                        case (5, 6, 7, 8):
+                            std::cout << "[STORM] Ship hasn't moved." << std::endl;
+                            break;
+                        case (9, 10):
+                            std::cout << "[STORM] Blown in the right direction. 1 turns closer." << std::endl;
+                            destination->increase_turn(1);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                else
+                {
+                    alive = false;
+                    break;
+                }
                 break;
             default:
                 break;
         }
     }
-    std::cout << std::endl << "You made it! press any key to continue" << std::endl;
-    std::cin >> input;
 
-    game->init_harbor(destination->get_to_id());
-    printer->print_in_harbor_menu();
-    game->set_state(std::make_shared<InHarborState>());
+    if(alive)
+    {
+        std::cout << std::endl << "You made it! press any key to continue" << std::endl;
+        std::cin >> input;
+
+        game->init_harbor(destination->get_to_id());
+        printer->print_in_harbor_menu();
+        game->set_state(std::make_shared<InHarborState>());
+    }
+    else
+    {
+        std::cout << "You have encountered a storm and you have died." << std::endl;
+        std::cout << "Press any key to start over" << std::endl;
+        std::cin >> input;
+        game->start();
+        printer->print_in_harbor_menu();
+        game->set_state(std::make_shared<InHarborState>());
+    }
 }

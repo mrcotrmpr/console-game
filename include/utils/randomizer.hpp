@@ -6,7 +6,7 @@
 class Randomizer
 {
 public:
-	int get_int_between_values(const int first, const int second) const;
+	int get_int_between_values(int first, int second) const;
 private:
 	mutable std::mt19937 engine{ std::random_device{}() };
 };
