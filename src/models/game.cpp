@@ -4,6 +4,7 @@
 #include "models/good.hpp"
 #include "models/cannon.hpp"
 #include "models/specialty.hpp"
+#include "models/destination.hpp"
 #include "ui/printer.hpp"
 #include "states/state.hpp"
 #include "states/in_harbor_state.hpp"
@@ -70,6 +71,17 @@ void Game::init_harbor(int harbor_id) {
         ships.emplace_back(temp);
     }
     _current_harbor->set_ships(ships);
+
+    // Harbor destinations
+    auto destinations = _db->get_entities<Destination>("SELECT * from afstanden WHERE haven1_id = ?", harbor_id);
+    auto destinations2 = _db->get_entities<Destination>("SELECT * from afstanden WHERE haven2_id = ?", harbor_id);
+    destinations.insert(destinations.end(), destinations2.begin(), destinations2.end());
+    _current_harbor->set_destinations(destinations);
+    for(const auto& destination : _current_harbor->get_destinations())
+    {
+        std::shared_ptr<Harbor> temp = _db->get_entity<Harbor>("SELECT * FROM havens WHERE id = ?", destination->get_to_id());
+        destination->set_name(temp->get_harbor_name());
+    }
 }
 
 std::string Game::init_specialty(int ship_id) const {

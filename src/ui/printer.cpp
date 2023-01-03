@@ -4,6 +4,7 @@
 #include "models/ship.hpp"
 #include "models/good.hpp"
 #include "models/cannon.hpp"
+#include "models/destination.hpp"
 
 #include <iostream>
 #include <utility>
@@ -155,5 +156,18 @@ void Printer::print_picking_destination_menu()
     system("CLS");
     std::cout << "Picking destination" << std::endl << std::endl;
     std::cout << "[0] Return to harbor" << std::endl;
+    std::cout << "[1] Pick a destination" << std::endl;
+    std::cout << "[9] Quit the game" << std::endl;
+    std::cout << std::endl << "Available destinations from the current harbor:" << std::endl << std::endl;
+    for (const auto& destination : _game->get_current_harbor()->get_destinations())
+    {
+        std::cout << "[" << destination->get_to_id() << "] " << destination->get_name() << std::endl;
+        std::cout << " -- Distance: " << destination->get_distance() << std::endl << std::endl;
+    }
+}
+
+void Printer::print_traveling_menu() {
+    system("CLS");
+    std::cout << "Traveling" << std::endl << std::endl;
     std::cout << "[9] Quit the game" << std::endl;
 }

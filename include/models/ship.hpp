@@ -8,6 +8,7 @@
 
 class Good;
 class Cannon;
+class Destination;
 
 class Ship : public SQLiteModel, public std::enable_shared_from_this<Ship>
 {
@@ -30,6 +31,8 @@ public:
     [[nodiscard]] std::vector<std::shared_ptr<Cannon>> get_cannons() const;
     [[nodiscard]] std::shared_ptr<Good> get_good(int id) const;
     [[nodiscard]] std::shared_ptr<Cannon> get_cannon(int id) const;
+    [[nodiscard]] std::shared_ptr<Destination> get_destination() const;
+    void set_destination(const std::shared_ptr<Destination>&);
     void remove_good(int id, int amount);
     void remove_cannon(int id, int amount);
     void set_specialty(const std::string& specialty);
@@ -57,6 +60,7 @@ private:
     std::string _specialty;
     std::vector<std::shared_ptr<Good>> _goods;
     std::vector<std::shared_ptr<Cannon>> _cannons;
+    std::shared_ptr<Destination> _destination;
 };
 
 #endif //CPLUS_SHIP_HPP

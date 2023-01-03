@@ -17,6 +17,7 @@ public:
     static void print_buying_ship_menu();
     static void print_repairing_ship_menu();
     static void print_picking_destination_menu();
+    static void print_traveling_menu();
 private:
     static std::shared_ptr<Game> _game;
 };
