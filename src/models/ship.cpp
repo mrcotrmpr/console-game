@@ -68,6 +68,14 @@ std::string Ship::get_ship_type() const {
     return _ship_type;
 }
 
+std::string Ship::get_specialty() const {
+    return _specialty;
+}
+
+void Ship::set_specialty(const std::string &specialty) {
+    _specialty = specialty;
+}
+
 std::vector<std::shared_ptr<Good>> Ship::get_goods() const {
     return _goods;
 }

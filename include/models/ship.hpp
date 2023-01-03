@@ -16,6 +16,7 @@ public:
     Ship(const Ship &other);
     Ship(int ship_id, std::string ship_type);
     [[nodiscard]] std::string get_ship_type() const;
+    [[nodiscard]] std::string get_specialty() const;
     [[nodiscard]] int get_ship_id() const;
     [[nodiscard]] int get_ship_price() const; 
     [[nodiscard]] int get_gold() const;
@@ -31,6 +32,7 @@ public:
     [[nodiscard]] std::shared_ptr<Cannon> get_cannon(int id) const;
     void remove_good(int id, int amount);
     void remove_cannon(int id, int amount);
+    void set_specialty(const std::string& specialty);
     void set_gold(int amount);
     void set_health(int amount);
     void set_goods_used(int amount);
@@ -52,6 +54,7 @@ private:
     int _goods_kg_used{};
     int _cannons_used{};
     std::string _ship_type;
+    std::string _specialty;
     std::vector<std::shared_ptr<Good>> _goods;
     std::vector<std::shared_ptr<Cannon>> _cannons;
 };

@@ -3,6 +3,7 @@
 #include "models/ship.hpp"
 #include "models/good.hpp"
 #include "models/cannon.hpp"
+#include "models/specialty.hpp"
 #include "ui/printer.hpp"
 #include "states/state.hpp"
 #include "states/in_harbor_state.hpp"
@@ -39,8 +40,7 @@ std::shared_ptr<Ship> Game::get_player() const {
     return _player;
 }
 
-void Game::init_harbor(int harbor_id)
-{
+void Game::init_harbor(int harbor_id) {
     _current_harbor = _db->get_entity<Harbor>("SELECT * FROM havens WHERE id = ?", harbor_id);
 
     // Harbor goods
@@ -65,18 +65,26 @@ void Game::init_harbor(int harbor_id)
     int amount = _random->get_int_between_values(1, 5);
     for(int i = 0; i < amount; i++)
     {
-        ships.emplace_back(_db->get_entity<Ship>("SELECT * FROM schepen WHERE id = ?", _random->get_int_between_values(1, 13)));
+        std::shared_ptr<Ship> temp = _db->get_entity<Ship>("SELECT * FROM schepen WHERE id = ?", _random->get_int_between_values(1, 13));
+        temp->set_specialty(init_specialty(temp->get_ship_id()));
+        ships.emplace_back(temp);
     }
     _current_harbor->set_ships(ships);
 }
 
-void Game::_init()
-{
+std::string Game::init_specialty(int ship_id) const {
+    std::shared_ptr<Specialty> temp = _db->get_entity<Specialty>("SELECT bijzonderheid_id FROM schepen_bijzonderheden WHERE schip_id = ?", ship_id);
+    std::shared_ptr<Specialty> specialty = _db->get_entity<Specialty>("SELECT bijzonderheid FROM bijzonderheden WHERE id = ?", temp->get_id());
+    return specialty->get_name().length() == 0 ? "none" : specialty->get_name();
+}
+
+void Game::_init() {
     // Setup harbor
     init_harbor(_random->get_int_between_values(1, 24));
 
     // Setup player
     _player = _db->get_entity<Ship>("SELECT * FROM schepen WHERE id = ?", _random->get_int_between_values(1, 13));
+    _player->set_specialty(init_specialty(_player->get_ship_id()));
     _player->set_gold(_random->get_int_between_values(100000, 250000));
 
     // Setup printer
@@ -102,6 +110,6 @@ void Game::handle(int input) {
     _state->handle(shared_from_this(), _printer, input);
 }
 
-void Game::set_player(std::shared_ptr<Ship> other) {
+void Game::set_player(const std::shared_ptr<Ship>& other) {
     _player = std::make_shared<Ship>(*other);
 }
