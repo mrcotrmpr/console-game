@@ -20,6 +20,7 @@ void Printer::print_resources()
     print_in_harbor_menu();
     std::cout << std::endl << "Current harbor: " << _game->get_current_harbor()->get_harbor_name() << std::endl << std::endl;
     std::cout << "Current ship: " << _game->get_player()->get_ship_type() << std::endl;
+    std::cout << "Current specialty: " << _game->get_player()->get_specialty() << std::endl;
     std::cout << "Current ship worth: " << _game->get_player()->get_ship_price() << std::endl;
     std::cout << "Current gold: " << _game->get_player()->get_gold() << std::endl;
     std::cout << "Current health: " << _game->get_player()->get_health() << "/" << _game->get_player()->get_max_health() << std::endl << std::endl;
@@ -133,6 +134,7 @@ void Printer::print_buying_ship_menu()
         std::cout << "[" << ship->get_ship_id() << "] " << ship->get_ship_type() << std::endl;
         std::cout << " -- Price: " << ship->get_ship_price() << std::endl;
         std::cout << " -- Health: " << ship->get_max_health() << std::endl;
+        std::cout << " -- Speciality: " << ship->get_specialty() << std::endl;
         std::cout << " -- Max cargo space: " << ship->get_max_goods_kg() << std::endl;
         std::cout << " -- Max cannons: " << ship->get_max_cannons() << std::endl << std::endl;
     }

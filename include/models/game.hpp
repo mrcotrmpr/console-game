@@ -19,13 +19,14 @@ public:
     void stop();
     void handle(int input);
     void init_harbor(int harbor_id);
+    [[nodiscard]] std::string init_specialty(int ship_id) const;
     [[nodiscard]] bool is_running() const;
     void set_state(std::shared_ptr<State> state);
     [[nodiscard]] std::shared_ptr<State> get_state() const;
     [[nodiscard]] std::shared_ptr<Printer> get_printer() const;
     [[nodiscard]] std::shared_ptr<Harbor> get_current_harbor() const;
     [[nodiscard]] std::shared_ptr<Ship> get_player() const;
-    void set_player(std::shared_ptr<Ship> other);
+    void set_player(const std::shared_ptr<Ship>& other);
 private:
     void _init();
     std::shared_ptr<State> _state;
