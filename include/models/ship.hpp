@@ -7,6 +7,7 @@
 #include "models/sqlite_model.hpp"
 
 class Good;
+class Cannon;
 
 class Ship : public SQLiteModel
 {
@@ -22,13 +23,17 @@ public:
     [[nodiscard]] int get_max_cannons() const;
     [[nodiscard]] int get_cannons_used() const;
     [[nodiscard]] std::vector<std::shared_ptr<Good>> get_goods() const;
+    [[nodiscard]] std::vector<std::shared_ptr<Cannon>> get_cannons() const;
     [[nodiscard]] std::shared_ptr<Good> get_good(int id) const;
+    [[nodiscard]] std::shared_ptr<Cannon> get_cannon(int id) const;
     [[nodiscard]] std::string get_ship_type() const;
     void remove_good(int id, int amount);
+    void remove_cannon(int id, int amount);
     void set_gold(int amount);
     void set_int_value(const char* column_name, int value) override;
     void set_string_value(const char* column_name, const char* value) override;
     void add_good(const std::shared_ptr<Good>&, int amount);
+    void add_cannon(const std::shared_ptr<Cannon>&, int amount);
 private:
     int _ship_id{};
     int _price{};
@@ -40,6 +45,7 @@ private:
     int _cannons_used{};
     std::string _ship_type;
     std::vector<std::shared_ptr<Good>> _goods;
+    std::vector<std::shared_ptr<Cannon>> _cannons;
 };
 
 #endif //CPLUS_SHIP_HPP

@@ -1,5 +1,6 @@
 #include "models/ship.hpp"
 #include "models/good.hpp"
+#include "models/cannon.hpp"
 
 #include "memory"
 #include <algorithm>
@@ -48,12 +49,21 @@ int Ship::get_health() const
     return _health;
 }
 
+void Ship::set_gold(const int amount)
+{
+    _gold = amount;
+}
+
 std::string Ship::get_ship_type() const {
     return _ship_type;
 }
 
 std::vector<std::shared_ptr<Good>> Ship::get_goods() const {
     return _goods;
+}
+
+std::vector<std::shared_ptr<Cannon>> Ship::get_cannons() const {
+    return _cannons;
 }
 
 std::shared_ptr<Good> Ship::get_good(int id) const {
@@ -104,9 +114,50 @@ void Ship::remove_good(int id, int amount) {
     _goods_kg_used -= amount;
 }
 
-void Ship::set_gold(const int amount)
+std::shared_ptr<Cannon> Ship::get_cannon(int id) const {
+    for(auto cannon : _cannons)
+    {
+        if(cannon->get_cannon_id() == id)
+        {
+            return cannon;
+        };
+    }
+    return nullptr;
+}
+
+void Ship::add_cannon(const std::shared_ptr<Cannon>& cannon, int amount)
 {
-    _gold = amount;
+    for(const auto& c : _cannons)
+    {
+        if(c->get_cannon_id() == cannon->get_cannon_id())
+        {
+            c->set_amount(c->get_amount() + amount);
+            c->set_price(c->get_cannon_price());
+            _cannons_used += amount;
+            return;
+        }
+    }
+    auto new_cannon = std::make_shared<Cannon>(cannon->get_cannon_id(), cannon->get_cannon_name(), cannon->get_cannon_price(), amount);
+    _cannons.push_back(new_cannon);
+    _cannons_used += amount;
+}
+
+void Ship::remove_cannon(int id, int amount) {
+    for (const auto& c : _cannons)
+    {
+        if (c->get_cannon_id() == id)
+        {
+            if (c->get_amount() - amount == 0)
+            {
+                _cannons.erase(std::remove(_cannons.begin(), _cannons.end(), c), _cannons.end());
+            }
+            else
+            {
+                c->set_amount(c->get_amount() - amount);
+            }
+        }
+    }
+    _cannons_used -= amount;
 }
 
 void Ship::set_int_value(const char* column_name, int value) {

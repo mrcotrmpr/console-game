@@ -2,6 +2,7 @@
 #include "models/harbor.hpp"
 #include "models/ship.hpp"
 #include "models/good.hpp"
+#include "models/cannon.hpp"
 #include "ui/printer.hpp"
 #include "states/state.hpp"
 #include "states/in_harbor_state.hpp"
@@ -10,6 +11,7 @@
 
 #include <utility>
 #include <iostream>
+#include <memory>
 
 Game::Game():
     _state(std::make_shared<InHarborState>()),
@@ -40,6 +42,8 @@ std::shared_ptr<Ship> Game::get_player() const {
 void Game::init_harbor(int harbor_id)
 {
     _current_harbor = _db->get_entity<Harbor>("SELECT * FROM havens WHERE id = ?", harbor_id);
+
+    // Harbor goods
     _current_harbor->set_goods(_db->get_entities<Good>("SELECT goed_id, min_goed, max_goed, min_prijs, max_prijs FROM havens_goederen WHERE haven_id = ?", harbor_id));
     for (const auto& good : _current_harbor->get_goods())
     {
@@ -48,6 +52,13 @@ void Game::init_harbor(int harbor_id)
         good->set_price(_random->get_int_between_values(good->get_min_price(), good->get_max_price()));
         good->set_amount(_random->get_int_between_values(good->get_min_amount(), good->get_max_amount()));
     }
+
+    // Harbor cannons
+    std::vector<std::shared_ptr<Cannon>> cannons;
+    cannons.emplace_back(std::make_unique<Cannon>(1, "small", 50, _random->get_int_between_values(0, 5)));
+    cannons.emplace_back(std::make_unique<Cannon>(2, "medium", 200, _random->get_int_between_values(0, 3)));
+    cannons.emplace_back(std::make_unique<Cannon>(3, "large", 1000, _random->get_int_between_values(0, 2)));
+    _current_harbor->set_cannons(cannons);
 }
 
 void Game::_init()
