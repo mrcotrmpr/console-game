@@ -224,7 +224,7 @@ void Ship::set_string_value(const char* column_name, const char* value) {
     _ship_type = std::string(value);
 }
 
-Ship::Ship(const Ship& other) {
+Ship::Ship(const Ship& other)  : enable_shared_from_this(other) {
     _ship_id = other._ship_id;
     _price = other._price;
     _max_goods_kg = other._max_goods_kg;
@@ -235,6 +235,7 @@ Ship::Ship(const Ship& other) {
     _ship_type = other._ship_type;
     _goods_kg_used = other._goods_kg_used;
     _cannons_used = other._cannons_used;
+    _specialty = other._specialty;
     for (const auto& good : other._goods) {
         _goods.push_back(std::make_shared<Good>(*good));
     }
