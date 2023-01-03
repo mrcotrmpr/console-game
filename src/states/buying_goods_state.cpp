@@ -16,38 +16,7 @@ void BuyingGoodsState::handle(std::shared_ptr<Game> game, std::shared_ptr<Printe
             game->set_state(std::make_shared<InHarborState>());
             break;
         case 1:
-            int id;
-            std::cout << "Enter good id" << std::endl;
-            std::cin >> id;
-            if(game->get_current_harbor()->get_good(id) != nullptr)
-            {
-                auto good = game->get_current_harbor()->get_good(id);
-                int amount;
-                std::cout << "Enter amount:" << std::endl;
-                std::cin >> amount;
-                if(good->get_amount() >= amount && amount > 0 && (game->get_player()->get_goods_kg_used() + amount) <= game->get_player()->get_max_goods_kg())
-                {
-                    if (game->get_player()->get_gold() >= (good->get_price() * amount))
-                    {
-                        game->get_player()->add_good(good, amount);
-                        game->get_player()->set_gold(game->get_player()->get_gold() - (good->get_price() * amount));
-                        good->set_amount(good->get_amount() - amount);
-                        printer->print_buying_goods_menu();
-                    }
-                    else
-                    {
-                        std::cout << "Not enough money available" << std::endl;
-                    }
-                }
-                else
-                {
-                    std::cout << "Not enough goods or space available" << std::endl;
-                }
-            }
-            else
-            {
-                std::cout << "Invalid id" << std::endl;
-            }
+            _handle_buy_goods(game, printer);
             break;
         case 9:
             game->stop();
@@ -55,5 +24,51 @@ void BuyingGoodsState::handle(std::shared_ptr<Game> game, std::shared_ptr<Printe
         default:
             std::cout << "Invalid input: " << input << std::endl;
             break;
+    }
+}
+
+void BuyingGoodsState::_handle_buy_goods(const std::shared_ptr<Game>& game, const std::shared_ptr<Printer>& printer) {
+    int id;
+    std::cout << "Enter good id" << std::endl;
+    std::cin >> id;
+
+    auto good = game->get_current_harbor()->get_good(id);
+    if(good != nullptr)
+    {
+        int amount;
+        std::cout << "Enter amount:" << std::endl;
+        std::cin >> amount;
+
+        if(_validate_purchase(good, amount, game->get_player()))
+        {
+            game->get_player()->add_good(good, amount);
+            game->get_player()->set_gold(game->get_player()->get_gold() - (good->get_price() * amount));
+            good->set_amount(good->get_amount() - amount);
+            printer->print_buying_goods_menu();
+        }
+    }
+    else
+    {
+        std::cout << "Invalid id" << std::endl;
+    }
+}
+
+bool BuyingGoodsState::_validate_purchase(const std::shared_ptr<Good>& good, int amount, const std::shared_ptr<Ship>& player) {
+    if(good->get_amount() >= amount && amount > 0 && (player->get_goods_kg_used() + amount) <= player->get_max_goods_kg())
+    {
+        if (player->get_gold() >= (good->get_price() * amount))
+        {
+            return true;
+        }
+        else
+        {
+            std::cout << "Not enough gold available" << std::endl;
+            return false;
+        }
+    }
+    else
+    {
+        std::cout << "Not enough goods or space available" << std::endl;
+        return false;
     }
 }
