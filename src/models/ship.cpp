@@ -49,9 +49,19 @@ int Ship::get_health() const
     return _health;
 }
 
+int Ship::get_max_health() const
+{
+    return _max_health;
+}
+
 void Ship::set_gold(const int amount)
 {
     _gold = amount;
+}
+
+void Ship::set_health(const int amount)
+{
+    _health = amount;
 }
 
 std::string Ship::get_ship_type() const {
@@ -137,7 +147,7 @@ void Ship::add_cannon(const std::shared_ptr<Cannon>& cannon, int amount)
             return;
         }
     }
-    auto new_cannon = std::make_shared<Cannon>(cannon->get_cannon_id(), cannon->get_cannon_name(), cannon->get_cannon_price(), amount);
+    auto new_cannon = std::make_shared<Cannon>(cannon->get_cannon_id(), cannon->get_cannon_name(), (cannon->get_cannon_price() /2), amount);
     _cannons.push_back(new_cannon);
     _cannons_used += amount;
 }
@@ -182,6 +192,7 @@ void Ship::set_int_value(const char* column_name, int value) {
     else if (str_column_name == "schadepunten")
     {
         _health = value;
+        _max_health = value;
     }
 }
 

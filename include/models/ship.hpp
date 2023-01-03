@@ -18,7 +18,8 @@ public:
     [[nodiscard]] int get_ship_price() const; 
     [[nodiscard]] int get_gold() const;
     [[nodiscard]] int get_health() const; 
-    [[nodiscard]] int get_max_goods_kg() const; 
+    [[nodiscard]] int get_max_health() const;
+    [[nodiscard]] int get_max_goods_kg() const;
     [[nodiscard]] int get_goods_kg_used() const;
     [[nodiscard]] int get_max_cannons() const;
     [[nodiscard]] int get_cannons_used() const;
@@ -30,6 +31,7 @@ public:
     void remove_good(int id, int amount);
     void remove_cannon(int id, int amount);
     void set_gold(int amount);
+    void set_health(int amount);
     void set_int_value(const char* column_name, int value) override;
     void set_string_value(const char* column_name, const char* value) override;
     void add_good(const std::shared_ptr<Good>&, int amount);
@@ -40,6 +42,7 @@ private:
     int _max_goods_kg{};
     int _max_cannons{};
     int _health{};
+    int _max_health{};
     int _gold{};
     int _goods_kg_used{};
     int _cannons_used{};

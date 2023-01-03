@@ -21,7 +21,7 @@ void Printer::print_resources()
     std::cout << std::endl << "Current harbor: " << _game->get_current_harbor()->get_harbor_name() << std::endl;
     std::cout << "Current ship: " << _game->get_player()->get_ship_type() << std::endl;
     std::cout << "Current gold: " << _game->get_player()->get_gold() << std::endl;
-    std::cout << "Current health: " << _game->get_player()->get_health() << std::endl << std::endl;
+    std::cout << "Current health: " << _game->get_player()->get_health() << "/" << _game->get_player()->get_max_health() << std::endl;
 
     std::cout << "Current cargo space: " << _game->get_player()->get_goods_kg_used() << "/" << _game->get_player()->get_max_goods_kg() << std::endl;
     std::cout << "Current goods: " << std::endl;
@@ -131,7 +131,9 @@ void Printer::print_repairing_ship_menu()
 {
     system("CLS");
     std::cout << "Repairing ship" << std::endl << std::endl;
+    std::cout << "Current health: " << _game->get_player()->get_health() << "/" << _game->get_player()->get_max_health() << std::endl;
     std::cout << "[0] Return to harbor" << std::endl;
+    std::cout << "[1] Repair ship" << std::endl;
     std::cout << "[9] Quit the game" << std::endl;
 }
 
