@@ -25,6 +25,7 @@ public:
     [[nodiscard]] std::shared_ptr<Printer> get_printer() const;
     [[nodiscard]] std::shared_ptr<Harbor> get_current_harbor() const;
     [[nodiscard]] std::shared_ptr<Ship> get_player() const;
+    void set_player(std::shared_ptr<Ship> other);
 private:
     void _init();
     std::shared_ptr<State> _state;
