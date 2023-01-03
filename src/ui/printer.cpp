@@ -21,6 +21,7 @@ void Printer::print_resources()
     std::cout << "Current ship: " << _game->get_player()->get_ship_type() << std::endl;
     std::cout << "Current florin: " << _game->get_player()->get_florin() << std::endl;
     std::cout << "Current health: " << _game->get_player()->get_health() << std::endl << std::endl;
+    std::cout << "Current cargo space: " << _game->get_player()->get_kg_used() << "/" << _game->get_player()->get_max_kg() << std::endl << std::endl;
     std::cout << "Current goods: " << std::endl;
     for (const auto& good : _game->get_player()->get_goods())
     {

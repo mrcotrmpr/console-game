@@ -23,6 +23,26 @@ int Ship::get_florin() const
     return _florin;
 }
 
+int Ship::get_max_goods_kg() const
+{
+    return _max_goods_kg;
+}
+
+int Ship::get_goods_kg_used() const
+{
+    return _goods_kg_used;
+}
+
+int Ship::get_max_cannons() const
+{
+    return _max_cannons;
+}
+
+int Ship::get_cannons_used() const
+{
+    return _cannons_used;
+}
+
 int Ship::get_health() const
 {
     return _health;
@@ -55,7 +75,7 @@ void Ship::add_good(const std::shared_ptr<Good>& good, int amount)
         {
             g->set_amount(g->get_amount() + amount);
             g->set_price(g->get_price());
-            _kg_used += amount;
+            _goods_kg_used += amount;
             return;
         }
     }
@@ -63,7 +83,7 @@ void Ship::add_good(const std::shared_ptr<Good>& good, int amount)
     new_good->set_amount(amount);
     new_good->set_price(good->get_price());
     _goods.push_back(new_good);
-    _kg_used += amount;
+    _goods_kg_used += amount;
 }
 
 void Ship::remove_good(int id, int amount) {
@@ -81,7 +101,7 @@ void Ship::remove_good(int id, int amount) {
             }
         }
     }
-    _kg_used -= amount;
+    _goods_kg_used -= amount;
 }
 
 void Ship::set_florin(const int amount)
@@ -106,7 +126,7 @@ void Ship::set_int_value(const char* column_name, int value) {
     }
     else if (str_column_name == "kanonnen")
     {
-        _max_firearms_amount = value;
+        _max_cannons = value;
     }
     else if (str_column_name == "schadepunten")
     {

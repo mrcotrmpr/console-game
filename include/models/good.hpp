@@ -24,12 +24,12 @@ public:
     void set_string_value(const char* column_name, const char* value) override;
 private:
     int _good_id;
-    int _price;
-    int _amount;
-    int _min_amount;
-    int _max_amount;
-    int _min_price;
-    int _max_price;
+    int _price{};
+    int _amount{};
+    int _min_amount{};
+    int _max_amount{};
+    int _min_price{};
+    int _max_price{};
     std::string _good_name;
 };
 
