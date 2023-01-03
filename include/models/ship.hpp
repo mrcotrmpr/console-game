@@ -9,11 +9,13 @@
 class Good;
 class Cannon;
 
-class Ship : public SQLiteModel
+class Ship : public SQLiteModel, public std::enable_shared_from_this<Ship>
 {
 public:
     Ship() = default;
+    Ship(const Ship &other);
     Ship(int ship_id, std::string ship_type);
+    [[nodiscard]] std::string get_ship_type() const;
     [[nodiscard]] int get_ship_id() const;
     [[nodiscard]] int get_ship_price() const; 
     [[nodiscard]] int get_gold() const;
@@ -27,15 +29,18 @@ public:
     [[nodiscard]] std::vector<std::shared_ptr<Cannon>> get_cannons() const;
     [[nodiscard]] std::shared_ptr<Good> get_good(int id) const;
     [[nodiscard]] std::shared_ptr<Cannon> get_cannon(int id) const;
-    [[nodiscard]] std::string get_ship_type() const;
     void remove_good(int id, int amount);
     void remove_cannon(int id, int amount);
     void set_gold(int amount);
     void set_health(int amount);
+    void set_goods_used(int amount);
+    void set_cannons_used(int amount);
+    void set_goods(std::vector<std::shared_ptr<Good>>);
+    void set_cannons(std::vector<std::shared_ptr<Cannon>>);
     void set_int_value(const char* column_name, int value) override;
     void set_string_value(const char* column_name, const char* value) override;
-    void add_good(const std::shared_ptr<Good>&, int amount);
-    void add_cannon(const std::shared_ptr<Cannon>&, int amount);
+    void add_good(const std::shared_ptr<Good>& goods, int amount);
+    void add_cannon(const std::shared_ptr<Cannon>& cannons, int amount);
 private:
     int _ship_id{};
     int _price{};

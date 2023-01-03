@@ -76,6 +76,22 @@ std::vector<std::shared_ptr<Cannon>> Ship::get_cannons() const {
     return _cannons;
 }
 
+void Ship::set_goods(std::vector<std::shared_ptr<Good>> goods) {
+    _goods = std::move(goods);
+}
+
+void Ship::set_cannons(std::vector<std::shared_ptr<Cannon>> cannons) {
+    _cannons = std::move(cannons);
+}
+
+void Ship::set_goods_used(int amount) {
+    _goods_kg_used = amount;
+}
+
+void Ship::set_cannons_used(int amount) {
+    _cannons_used = amount;
+}
+
 std::shared_ptr<Good> Ship::get_good(int id) const {
     for(auto good : _goods)
     {
@@ -198,4 +214,23 @@ void Ship::set_int_value(const char* column_name, int value) {
 
 void Ship::set_string_value(const char* column_name, const char* value) {
     _ship_type = std::string(value);
+}
+
+Ship::Ship(const Ship& other) {
+    _ship_id = other._ship_id;
+    _price = other._price;
+    _max_goods_kg = other._max_goods_kg;
+    _max_cannons = other._max_cannons;
+    _health = other._health;
+    _max_health = other._max_health;
+    _gold = other._gold;
+    _ship_type = other._ship_type;
+    _goods_kg_used = other._goods_kg_used;
+    _cannons_used = other._cannons_used;
+    for (const auto& good : other._goods) {
+        _goods.push_back(std::make_shared<Good>(*good));
+    }
+    for (const auto& cannon : other._cannons) {
+        _cannons.push_back(std::make_shared<Cannon>(*cannon));
+    }
 }

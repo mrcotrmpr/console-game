@@ -59,6 +59,15 @@ void Game::init_harbor(int harbor_id)
     cannons.emplace_back(std::make_unique<Cannon>(2, "medium", 200, _random->get_int_between_values(0, 3)));
     cannons.emplace_back(std::make_unique<Cannon>(3, "large", 1000, _random->get_int_between_values(0, 2)));
     _current_harbor->set_cannons(cannons);
+
+    // Harbor ships
+    std::vector<std::shared_ptr<Ship>> ships;
+    int amount = _random->get_int_between_values(1, 5);
+    for(int i = 0; i < amount; i++)
+    {
+        ships.emplace_back(_db->get_entity<Ship>("SELECT * FROM schepen WHERE id = ?", _random->get_int_between_values(1, 13)));
+    }
+    _current_harbor->set_ships(ships);
 }
 
 void Game::_init()
@@ -91,4 +100,8 @@ bool Game::is_running() const {
 
 void Game::handle(int input) {
     _state->handle(shared_from_this(), _printer, input);
+}
+
+void Game::set_player(std::shared_ptr<Ship> other) {
+    _player = std::make_shared<Ship>(*other);
 }
