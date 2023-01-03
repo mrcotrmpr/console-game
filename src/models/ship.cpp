@@ -1,6 +1,7 @@
 #include "models/ship.hpp"
 #include "models/good.hpp"
 #include "models/cannon.hpp"
+#include "models/destination.hpp"
 
 #include "memory"
 #include <algorithm>
@@ -242,4 +243,12 @@ Ship::Ship(const Ship& other)  : enable_shared_from_this(other) {
     for (const auto& cannon : other._cannons) {
         _cannons.push_back(std::make_shared<Cannon>(*cannon));
     }
+}
+
+std::shared_ptr<Destination> Ship::get_destination() const {
+    return _destination;
+}
+
+void Ship::set_destination(const std::shared_ptr<Destination>& destination) {
+    _destination = destination;
 }

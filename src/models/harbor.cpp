@@ -67,6 +67,17 @@ std::shared_ptr<Ship> Harbor::get_ship(int id) const {
     return nullptr;
 }
 
+std::shared_ptr<Destination> Harbor::get_destination(int id) const {
+    for(const auto& destination : _destinations)
+    {
+        if(destination->get_to_id() == id)
+        {
+            return destination;
+        };
+    }
+    return nullptr;
+}
+
 void Harbor::set_goods(const std::vector<std::shared_ptr<Good>>& goods) {
     _goods = goods;
 }

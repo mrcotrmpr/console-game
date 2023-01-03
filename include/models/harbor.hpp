@@ -26,6 +26,7 @@ public:
     [[nodiscard]] std::shared_ptr<Good> get_good(int id) const;
     [[nodiscard]] std::shared_ptr<Cannon> get_cannon(int id) const;
     [[nodiscard]] std::shared_ptr<Ship> get_ship(int id) const;
+    [[nodiscard]] std::shared_ptr<Destination> get_destination(int id) const;
     void set_goods(const std::vector<std::shared_ptr<Good>>& goods);
     void set_cannons(const std::vector<std::shared_ptr<Cannon>>& cannons);
     void set_ships(const std::vector<std::shared_ptr<Ship>>& ships);

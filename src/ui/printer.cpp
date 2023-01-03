@@ -165,3 +165,9 @@ void Printer::print_picking_destination_menu()
         std::cout << " -- Distance: " << destination->get_distance() << std::endl << std::endl;
     }
 }
+
+void Printer::print_traveling_menu() {
+    system("CLS");
+    std::cout << "Traveling" << std::endl << std::endl;
+    std::cout << "[9] Quit the game" << std::endl;
+}
