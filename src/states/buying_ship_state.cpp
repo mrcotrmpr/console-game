@@ -41,6 +41,8 @@ void BuyingShipState::_handle_buy_ship(const std::shared_ptr<Game> &game, const 
             ship->set_gold((player->get_gold() + (player->get_ship_price() /2)) - ship->get_ship_price());
             ship->set_goods(player->get_goods());
             ship->set_cannons(player->get_cannons());
+            ship->set_goods_used(player->get_goods_kg_used());
+            ship->set_cannons_used(player->get_cannons_used());
             game->set_player(ship);
             printer->print_buying_ship_menu();
         }

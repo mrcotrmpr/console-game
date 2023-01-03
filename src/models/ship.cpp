@@ -84,6 +84,14 @@ void Ship::set_cannons(std::vector<std::shared_ptr<Cannon>> cannons) {
     _cannons = std::move(cannons);
 }
 
+void Ship::set_goods_used(int amount) {
+    _goods_kg_used = amount;
+}
+
+void Ship::set_cannons_used(int amount) {
+    _cannons_used = amount;
+}
+
 std::shared_ptr<Good> Ship::get_good(int id) const {
     for(auto good : _goods)
     {

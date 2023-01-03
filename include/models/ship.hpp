@@ -33,6 +33,8 @@ public:
     void remove_cannon(int id, int amount);
     void set_gold(int amount);
     void set_health(int amount);
+    void set_goods_used(int amount);
+    void set_cannons_used(int amount);
     void set_goods(std::vector<std::shared_ptr<Good>>);
     void set_cannons(std::vector<std::shared_ptr<Cannon>>);
     void set_int_value(const char* column_name, int value) override;
