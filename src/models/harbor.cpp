@@ -10,10 +10,6 @@ Harbor::Harbor(const int harbor_id, std::string harbor_name) :
     _harbor_id(harbor_id),
     _harbor_name(std::move(harbor_name)) {}
 
-int Harbor::get_harbor_id() const {
-    return _harbor_id;
-}
-
 std::string Harbor::get_harbor_name() const {
     return _harbor_name;
 }
@@ -37,7 +33,7 @@ std::vector<std::shared_ptr<Destination>> Harbor::get_destinations() const {
 std::shared_ptr<Good> Harbor::get_good(int id) const {
     for(auto good : _goods)
     {
-        if(good->get_good_id() == id)
+        if(good->get_id() == id)
         {
             return good;
         };
@@ -48,7 +44,7 @@ std::shared_ptr<Good> Harbor::get_good(int id) const {
 std::shared_ptr<Cannon> Harbor::get_cannon(int id) const {
     for(const auto& cannon : _cannons)
     {
-        if(cannon->get_cannon_id() == id)
+        if(cannon->get_id() == id)
         {
             return cannon;
         };

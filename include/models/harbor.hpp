@@ -17,7 +17,6 @@ class Harbor : public SQLiteModel
 public:
     Harbor() = default;
     Harbor(int harbor_id, std::string harbor_name);
-    [[nodiscard]] int get_harbor_id() const;
     [[nodiscard]] std::string get_harbor_name() const;
     [[nodiscard]] std::vector <std::shared_ptr<Good>> get_goods() const;
     [[nodiscard]] std::vector <std::shared_ptr<Cannon>> get_cannons() const;

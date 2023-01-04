@@ -5,7 +5,7 @@ Good::Good(int good_id, std::string good_name) :
         _good_id(good_id),
         _good_name(std::move(good_name)) {}
 
-int Good::get_good_id() const {
+int Good::get_id() const {
     return _good_id;
 }
 
@@ -47,7 +47,7 @@ void Good::set_amount(int amount) {
 
 void Good::set_name(std::string name)
 {
-    _good_name = name;
+    _good_name = std::move(name);
 }
 
 void Good::set_int_value(const char* column_name, int value) {

@@ -32,8 +32,6 @@ public:
     [[nodiscard]] int get_cannons_damage() const;
     [[nodiscard]] std::vector<std::shared_ptr<Good>> get_goods() const;
     [[nodiscard]] std::vector<std::shared_ptr<Cannon>> get_cannons() const;
-    [[nodiscard]] std::shared_ptr<Good> get_good(int id) const;
-    [[nodiscard]] std::shared_ptr<Cannon> get_cannon(int id) const;
     [[nodiscard]] std::shared_ptr<Destination> get_destination() const;
     void set_destination(const std::shared_ptr<Destination>&);
     void set_fighting_state(bool state);
@@ -51,6 +49,19 @@ public:
     void add_good(const std::shared_ptr<Good>& goods, int amount);
     void add_cannon(const std::shared_ptr<Cannon>& cannons, int amount);
     void clear_cargo();
+
+    template<typename T>
+    std::shared_ptr<T> get_element(int id, const std::vector<std::shared_ptr<T>> &elements) const {
+        for(auto element : elements)
+        {
+            if(element->get_id() == id)
+            {
+                return element;
+            };
+        }
+        return nullptr;
+    }
+
 private:
     int _ship_id{};
     int _price{};

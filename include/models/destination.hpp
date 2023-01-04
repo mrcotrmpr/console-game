@@ -13,7 +13,6 @@ public:
     void set_name(const std::string& name);
     void increase_turn(int turns);
     [[nodiscard]] std::string get_name() const;
-    [[nodiscard]] int get_from_id() const;
     [[nodiscard]] int get_to_id() const;
     [[nodiscard]] int get_distance() const;
     [[nodiscard]] int get_turn() const;

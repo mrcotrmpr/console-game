@@ -68,7 +68,7 @@ void Game::init_harbor(int harbor_id) {
     _current_harbor->set_goods(_db->get_entities<Good>("SELECT goed_id, min_goed, max_goed, min_prijs, max_prijs FROM havens_goederen WHERE haven_id = ?", harbor_id));
     for (const auto& good : _current_harbor->get_goods())
     {
-        std::shared_ptr<Good> temp = _db->get_entity<Good>("SELECT * FROM goederen WHERE id = ?", good->get_good_id());
+        std::shared_ptr<Good> temp = _db->get_entity<Good>("SELECT * FROM goederen WHERE id = ?", good->get_id());
         good->set_name(temp->get_good_name());
         good->set_price(_random->get_int_between_values(good->get_min_price(), good->get_max_price()));
         good->set_amount(_random->get_int_between_values(good->get_min_amount(), good->get_max_amount()));
@@ -104,6 +104,17 @@ void Game::init_harbor(int harbor_id) {
         std::shared_ptr<Harbor> temp = _db->get_entity<Harbor>("SELECT * FROM havens WHERE id = ?", destination->get_to_id());
         destination->set_name(temp->get_harbor_name());
     }
+
+    // Fix player prices
+    for(const auto& harbor_good : _current_harbor->get_goods())
+    {
+        if(_player->get_element<Good>(harbor_good->get_id(), _player->get_goods()) != nullptr)
+        {
+            _player->get_element<Good>(harbor_good->get_id(), _player->get_goods())->set_price(harbor_good->get_price());
+        }
+    }
+
+
 }
 
 std::string Game::init_specialty(int ship_id) const {
@@ -113,13 +124,13 @@ std::string Game::init_specialty(int ship_id) const {
 }
 
 void Game::_init() {
-    // Setup harbor
-    init_harbor(_random->get_int_between_values(1, 24));
-
     // Setup player
     _player = _db->get_entity<Ship>("SELECT * FROM schepen WHERE id = ?", _random->get_int_between_values(1, 13));
     _player->set_specialty(init_specialty(_player->get_ship_id()));
     _player->set_gold(_random->get_int_between_values(100000, 250000));
+
+    // Setup harbor
+    init_harbor(_random->get_int_between_values(1, 24));
 
     // Setup printer
     _printer->set_game(shared_from_this());

@@ -42,7 +42,7 @@ void Printer::print_resources()
                               + "Current goods: " + "\n";
     for (const auto& good : _game->get_player()->get_goods())
     {
-        player_info_str += "[" + std::to_string(good->get_good_id()) + "] " + good->get_good_name();
+        player_info_str += "[" + std::to_string(good->get_id()) + "] " + good->get_good_name();
         player_info_str += " -- Amount: " + std::to_string(good->get_amount()) + " kg";
         player_info_str += " -- Value: " + std::to_string(good->get_price() * good->get_amount()) + " gold" + "\n";
     }
@@ -50,7 +50,7 @@ void Printer::print_resources()
                    + "Current cannons: " + "\n";
     for (const auto& cannon : _game->get_player()->get_cannons())
     {
-        player_info_str += "[" + std::to_string(cannon->get_cannon_id()) + "] " + cannon->get_cannon_name();
+        player_info_str += "[" + std::to_string(cannon->get_id()) + "] " + cannon->get_cannon_name();
         player_info_str += " -- Amount: " + std::to_string(cannon->get_amount());
         player_info_str += " -- Value: " + std::to_string(cannon->get_cannon_price() * cannon->get_amount()) + " gold" + "\n";
     }
@@ -84,7 +84,7 @@ void Printer::print_buying_goods_menu()
 {
     std::string buy_goods_str = "\nBuying goods\n\n[0] Return to harbor\n[1] Buy goods\n[9] Quit the game\n\nGoods in current harbor:\n";
     for (const auto& good : _game->get_current_harbor()->get_goods()) {
-        buy_goods_str += "[" + std::to_string(good->get_good_id()) + "] " + good->get_good_name() +
+        buy_goods_str += "[" + std::to_string(good->get_id()) + "] " + good->get_good_name() +
                 " -- Amount: " + std::to_string(good->get_amount()) + " kg" +
                 " -- Price: " + std::to_string(good->get_price()) + " gold per kg" + "\n";
     }
@@ -97,7 +97,7 @@ void Printer::print_selling_goods_menu()
 {
     std::string sell_goods_str = "\nSelling goods\n\n[0] Return to harbor\n[1] Sell goods\n[9] Quit the game\n\nCurrent goods:\n";
     for (const auto& good : _game->get_player()->get_goods()) {
-        sell_goods_str += "[" + std::to_string(good->get_good_id()) + "] " + good->get_good_name() +
+        sell_goods_str += "[" + std::to_string(good->get_id()) + "] " + good->get_good_name() +
                          " -- Amount: " + std::to_string(good->get_amount()) + " kg" +
                          " -- Price: " + std::to_string(good->get_price() * good->get_amount()) + " gold total" + "\n";
     }
@@ -110,7 +110,7 @@ void Printer::print_buying_cannons_menu()
 {
     std::string buy_cannons_str = "\nBuying cannons\n\n[0] Return to harbor\n[1] Buy cannons\n[9] Quit the game\n\nCannons in current harbor:\n";
     for (const auto& cannon : _game->get_current_harbor()->get_cannons()) {
-        buy_cannons_str += "[" + std::to_string(cannon->get_cannon_id()) + "] " + cannon->get_cannon_name() +
+        buy_cannons_str += "[" + std::to_string(cannon->get_id()) + "] " + cannon->get_cannon_name() +
                          " -- Amount: " + std::to_string(cannon->get_amount()) +
                          " -- Price: " + std::to_string(cannon->get_cannon_price()) + " gold per cannon" + "\n";
     }
@@ -123,7 +123,7 @@ void Printer::print_selling_cannons_menu()
 {
     std::string sell_cannons_str = "\nSelling cannons\n\n[0] Return to harbor\n[1] Sell cannons\n[9] Quit the game\n\nCurrent cannons:\n";
     for (const auto& cannon : _game->get_player()->get_cannons()) {
-        sell_cannons_str += "[" + std::to_string(cannon->get_cannon_id()) + "] " + cannon->get_cannon_name() +
+        sell_cannons_str += "[" + std::to_string(cannon->get_id()) + "] " + cannon->get_cannon_name() +
                           " -- Amount: " + std::to_string(cannon->get_amount()) + " kg" +
                           " -- Value: " + std::to_string(cannon->get_cannon_price() * cannon->get_amount()) + " gold total" + "\n";
     }

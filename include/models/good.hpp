@@ -9,7 +9,7 @@ class Good : public SQLiteModel
 public:
     Good() = default;
     Good(int good_id, std::string good_name);
-    [[nodiscard]] int get_good_id() const;
+    [[nodiscard]] int get_id() const;
     [[nodiscard]] int get_price() const;
     [[nodiscard]] int get_amount() const;
     [[nodiscard]] int get_min_amount() const;
