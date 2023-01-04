@@ -36,7 +36,7 @@ void SellingCannonsState::_handle_sell_cannons(const std::shared_ptr<Game> &game
     std::cin >> id;
     game->get_writer()->write_player_input(std::to_string(id));
 
-    auto cannon = game->get_player()->get_cannon(id);
+    auto cannon = game->get_player()->get_element(id, game->get_player()->get_cannons());
     if(cannon != nullptr)
     {
         int amount;

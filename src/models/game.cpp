@@ -68,7 +68,7 @@ void Game::init_harbor(int harbor_id) {
     _current_harbor->set_goods(_db->get_entities<Good>("SELECT goed_id, min_goed, max_goed, min_prijs, max_prijs FROM havens_goederen WHERE haven_id = ?", harbor_id));
     for (const auto& good : _current_harbor->get_goods())
     {
-        std::shared_ptr<Good> temp = _db->get_entity<Good>("SELECT * FROM goederen WHERE id = ?", good->get_good_id());
+        std::shared_ptr<Good> temp = _db->get_entity<Good>("SELECT * FROM goederen WHERE id = ?", good->get_id());
         good->set_name(temp->get_good_name());
         good->set_price(_random->get_int_between_values(good->get_min_price(), good->get_max_price()));
         good->set_amount(_random->get_int_between_values(good->get_min_amount(), good->get_max_amount()));

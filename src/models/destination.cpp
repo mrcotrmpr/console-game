@@ -4,10 +4,6 @@ std::string Destination::get_name() const {
     return _destination_name;
 }
 
-int Destination::get_from_id() const {
-    return _from_destination_id;
-}
-
 int Destination::get_to_id() const {
     return _to_destination_id;
 }
@@ -46,5 +42,5 @@ void Destination::set_int_value(const char *column_name, int value) {
 }
 
 void Destination::set_string_value(const char *column_name, const char *value) {
-    //
+    // No implementation needed.
 }

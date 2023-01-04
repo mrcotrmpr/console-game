@@ -9,7 +9,7 @@ Cannon::Cannon(int cannon_id, std::string cannon_name, int price, int amount) :
         _amount(amount)
         {}
 
-int Cannon::get_cannon_id() const {
+int Cannon::get_id() const {
     return _cannon_id;
 }
 

@@ -131,22 +131,11 @@ int Ship::get_cannons_damage() const {
     return total_damage;
 }
 
-std::shared_ptr<Good> Ship::get_good(int id) const {
-    for(auto good : _goods)
-    {
-        if(good->get_good_id() == id)
-        {
-            return good;
-        };
-    }
-    return nullptr;
-}
-
 void Ship::add_good(const std::shared_ptr<Good>& good, int amount)
 {
     for(const auto& g : _goods)
     {
-        if(g->get_good_id() == good->get_good_id())
+        if(g->get_id() == good->get_id())
         {
             g->set_amount(g->get_amount() + amount);
             g->set_price(g->get_price());
@@ -154,7 +143,7 @@ void Ship::add_good(const std::shared_ptr<Good>& good, int amount)
             return;
         }
     }
-    auto new_good = std::make_shared<Good>(good->get_good_id(), good->get_good_name());
+    auto new_good = std::make_shared<Good>(good->get_id(), good->get_good_name());
     new_good->set_amount(amount);
     new_good->set_price(good->get_price());
     _goods.push_back(new_good);
@@ -164,7 +153,7 @@ void Ship::add_good(const std::shared_ptr<Good>& good, int amount)
 void Ship::remove_good(int id, int amount) {
     for (const auto& g : _goods)
     {
-        if (g->get_good_id() == id)
+        if (g->get_id() == id)
         {
             if (g->get_amount() - amount == 0)
             {
@@ -179,22 +168,11 @@ void Ship::remove_good(int id, int amount) {
     _goods_kg_used -= amount;
 }
 
-std::shared_ptr<Cannon> Ship::get_cannon(int id) const {
-    for(auto cannon : _cannons)
-    {
-        if(cannon->get_cannon_id() == id)
-        {
-            return cannon;
-        };
-    }
-    return nullptr;
-}
-
 void Ship::add_cannon(const std::shared_ptr<Cannon>& cannon, int amount)
 {
     for(const auto& c : _cannons)
     {
-        if(c->get_cannon_id() == cannon->get_cannon_id())
+        if(c->get_id() == cannon->get_id())
         {
             c->set_amount(c->get_amount() + amount);
             c->set_price(c->get_cannon_price());
@@ -202,7 +180,7 @@ void Ship::add_cannon(const std::shared_ptr<Cannon>& cannon, int amount)
             return;
         }
     }
-    auto new_cannon = std::make_shared<Cannon>(cannon->get_cannon_id(), cannon->get_cannon_name(), (cannon->get_cannon_price() /2), amount);
+    auto new_cannon = std::make_shared<Cannon>(cannon->get_id(), cannon->get_cannon_name(), (cannon->get_cannon_price() /2), amount);
     _cannons.push_back(new_cannon);
     _cannons_used += amount;
 }
@@ -210,7 +188,7 @@ void Ship::add_cannon(const std::shared_ptr<Cannon>& cannon, int amount)
 void Ship::remove_cannon(int id, int amount) {
     for (const auto& c : _cannons)
     {
-        if (c->get_cannon_id() == id)
+        if (c->get_id() == id)
         {
             if (c->get_amount() - amount == 0)
             {

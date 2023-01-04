@@ -36,7 +36,7 @@ void SellingGoodsState::_handle_sell_goods(const std::shared_ptr<Game> &game, co
     std::cin >> id;
     game->get_writer()->write_player_input(std::to_string(id));
 
-    auto good = game->get_player()->get_good(id);
+    auto good = game->get_player()->get_element(id, game->get_player()->get_goods());
     if(good != nullptr)
     {
         int amount;

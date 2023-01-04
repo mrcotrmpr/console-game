@@ -9,7 +9,7 @@ class Cannon
 public:
     Cannon() = default;
     Cannon(int cannon_id, std::string cannon_name, int price, int amount);
-    [[nodiscard]] int get_cannon_id() const;
+    [[nodiscard]] int get_id() const;
     [[nodiscard]] int get_cannon_price() const;
     [[nodiscard]] int get_amount() const;
     [[nodiscard]] std::string get_cannon_name() const;
