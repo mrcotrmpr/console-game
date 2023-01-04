@@ -136,6 +136,7 @@ void Game::start() {
 
 void Game::stop() {
     std::cout << "Goodbye!" << std::endl;
+    _writer->write_game_output("Goodbye!");
     _running = false;
 }
 

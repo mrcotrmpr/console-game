@@ -5,7 +5,8 @@
 
 class Writer {
 public:
-    static void write_to_file(const std::string& text);
+    static void write_player_input(const std::string& text);
+    static void write_game_output(const std::string& text);
     static void clear();
 };
 

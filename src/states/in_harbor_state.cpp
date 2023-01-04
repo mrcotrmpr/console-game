@@ -11,55 +11,59 @@
 #include "utils/writer.hpp"
 
 #include <iostream>
+#include <sstream>
 
 
 void InHarborState::handle(std::shared_ptr<Game> game, std::shared_ptr<Printer> printer, int input)
 {
     switch (input) {
         case 1:
+            game->get_writer()->write_player_input("[1] Printing resources");
             printer->print_resources();
-            game->get_writer()->write_to_file("[1] Printing resources");
             break;
         case 2:
+            game->get_writer()->write_player_input("[2] Buying goods");
             printer->print_buying_goods_menu();
             game->set_state(std::make_shared<BuyingGoodsState>());
-            game->get_writer()->write_to_file("[2] Buying goods");
             break;
         case 3:
+            game->get_writer()->write_player_input("[3] Selling goods");
             printer->print_selling_goods_menu();
             game->set_state(std::make_shared<SellingGoodsState>());
-            game->get_writer()->write_to_file("[3] Selling goods");
             break;
         case 4:
+            game->get_writer()->write_player_input("[4] Buying cannons");
             printer->print_buying_cannons_menu();
             game->set_state(std::make_shared<BuyingCannonsState>());
-            game->get_writer()->write_to_file("[4] Buying cannons");
             break;
         case 5:
+            game->get_writer()->write_player_input("[5] Selling cannons");
             printer->print_selling_cannons_menu();
             game->set_state(std::make_shared<SellingCannonsState>());
-            game->get_writer()->write_to_file("[5] Selling cannons");
             break;
         case 6:
+            game->get_writer()->write_player_input("[6] Buying ship");
             printer->print_buying_ship_menu();
             game->set_state(std::make_shared<BuyingShipState>());
-            game->get_writer()->write_to_file("[6] Buying ship");
             break;
         case 7:
+            game->get_writer()->write_player_input("[7] Repairing ship");
             printer->print_repairing_ship_menu();
             game->set_state(std::make_shared<RepairingShipState>());
-            game->get_writer()->write_to_file("[7] Repairing ship");
             break;
         case 8:
+            game->get_writer()->write_player_input("[8] Picking destination");
             printer->print_picking_destination_menu();
             game->set_state(std::make_shared<PickingDestinationState>());
-            game->get_writer()->write_to_file("[8] Picking destination");
             break;
         case 9:
             game->stop();
             break;
         default:
             std::cout << "Invalid input: " << input << std::endl;
+            std::stringstream ss;
+            ss << "Invalid input: " << input;
+            game->get_writer()->write_game_output(ss.str());
             break;
     }
 }
