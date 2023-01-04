@@ -5,6 +5,7 @@
 #include <vector>
 #include <memory>
 #include "models/sqlite_model.hpp"
+#include "utils/randomizer.hpp"
 
 class Good;
 class Cannon;
@@ -27,12 +28,15 @@ public:
     [[nodiscard]] int get_goods_kg_used() const;
     [[nodiscard]] int get_max_cannons() const;
     [[nodiscard]] int get_cannons_used() const;
+    [[nodiscard]] int get_fighting_state() const;
+    [[nodiscard]] int get_cannons_damage() const;
     [[nodiscard]] std::vector<std::shared_ptr<Good>> get_goods() const;
     [[nodiscard]] std::vector<std::shared_ptr<Cannon>> get_cannons() const;
     [[nodiscard]] std::shared_ptr<Good> get_good(int id) const;
     [[nodiscard]] std::shared_ptr<Cannon> get_cannon(int id) const;
     [[nodiscard]] std::shared_ptr<Destination> get_destination() const;
     void set_destination(const std::shared_ptr<Destination>&);
+    void set_fighting_state(bool state);
     void remove_good(int id, int amount);
     void remove_cannon(int id, int amount);
     void set_specialty(const std::string& specialty);
@@ -61,6 +65,8 @@ private:
     std::vector<std::shared_ptr<Good>> _goods;
     std::vector<std::shared_ptr<Cannon>> _cannons;
     std::shared_ptr<Destination> _destination;
+    bool _fighting = false;
+    std::shared_ptr<Randomizer> _random = std::make_shared<Randomizer>();
 };
 
 #endif //CPLUS_SHIP_HPP

@@ -25,20 +25,34 @@ void Game::set_state(std::shared_ptr<State> state) {
     _state = std::move(state);
 }
 
-std::shared_ptr<State> Game::get_state() const {
-    return _state;
-}
-
-std::shared_ptr<Printer> Game::get_printer() const {
-    return _printer;
-}
-
 std::shared_ptr<Harbor> Game::get_current_harbor() const {
     return _current_harbor;
 }
 
 std::shared_ptr<Ship> Game::get_player() const {
     return _player;
+}
+
+std::shared_ptr<Ship> Game::get_enemy() const {
+    return _enemy;
+}
+
+void Game::create_enemy() {
+    _enemy = _db->get_entity<Ship>("SELECT * FROM schepen WHERE id = ?", _random->get_int_between_values(1, 13));
+    _enemy->set_specialty(init_specialty(_player->get_ship_id()));
+    int number_of_cannons = _random->get_int_between_values(1, _enemy->get_max_cannons());
+
+    int small = _random->get_int_between_values(0, number_of_cannons);
+    int medium = _random->get_int_between_values(0, number_of_cannons - small);
+    int large = number_of_cannons - (small + medium);
+
+    std::vector<std::shared_ptr<Cannon>> cannons;
+    cannons.emplace_back(std::make_unique<Cannon>(1, "small", 50, small));
+    cannons.emplace_back(std::make_unique<Cannon>(2, "medium", 200, medium));
+    cannons.emplace_back(std::make_unique<Cannon>(3, "large", 1000, large));
+
+    _enemy->set_cannons(cannons);
+    _enemy->set_cannons_used(number_of_cannons);
 }
 
 void Game::init_harbor(int harbor_id) {

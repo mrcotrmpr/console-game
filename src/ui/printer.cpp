@@ -172,3 +172,21 @@ void Printer::print_traveling_menu() {
     std::cout << "[1] Start traveling" << std::endl;
     std::cout << "[9] Quit the game" << std::endl;
 }
+
+void Printer::print_fighting_menu() {
+    system("CLS");
+    std::cout << "You have encountered a fight" << std::endl;
+    std::cout << "[1] Start the fight" << std::endl;
+}
+
+void Printer::print_fighting_options() {
+    system("CLS");
+    std::cout << "You are currently in a fight" << std::endl;
+    std::cout << "Current health: " << _game->get_player()->get_health() << "/" << _game->get_player()->get_max_health() << std::endl;
+    std::cout << "Current cannons used: " << _game->get_player()->get_cannons_used() << "/" << _game->get_player()->get_max_cannons() << std::endl << std::endl;
+    std::cout << "Enemy health: " << _game->get_enemy()->get_health() << "/" << _game->get_enemy()->get_max_health() << std::endl;
+    std::cout << "Enemy cannons used: " << _game->get_enemy()->get_cannons_used() << "/" << _game->get_enemy()->get_max_cannons() << std::endl << std::endl;
+    std::cout << "[1] Shoot" << std::endl;
+    std::cout << "[2] Flee" << std::endl;
+    std::cout << "[3] Surrender" << std::endl;
+}
