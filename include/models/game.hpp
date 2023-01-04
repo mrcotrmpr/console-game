@@ -22,6 +22,7 @@ public:
     void init_harbor(int harbor_id);
     [[nodiscard]] std::string init_specialty(int ship_id) const;
     [[nodiscard]] bool is_running() const;
+    [[nodiscard]] bool is_won() const;
     void set_state(std::shared_ptr<State> state);
     [[nodiscard]] std::shared_ptr<Writer> get_writer() const;
     [[nodiscard]] std::shared_ptr<Harbor> get_current_harbor() const;
@@ -40,6 +41,7 @@ private:
     std::shared_ptr<Randomizer> _random;
     std::shared_ptr<Writer> _writer;
     bool _running{};
+    bool _won{};
 };
 
 #endif //CPLUS_TESTS_GAME_HPP

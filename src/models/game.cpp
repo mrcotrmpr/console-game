@@ -144,8 +144,19 @@ bool Game::is_running() const {
     return _running;
 }
 
+bool Game::is_won() const {
+    return _won;
+}
+
 void Game::handle(int input) {
-    _state->handle(shared_from_this(), _printer, input);
+    if(get_player()->get_gold() == 1000000)
+    {
+        _won = true;
+    }
+    else
+    {
+        _state->handle(shared_from_this(), _printer, input);
+    }
 }
 
 void Game::set_player(const std::shared_ptr<Ship>& other) {
