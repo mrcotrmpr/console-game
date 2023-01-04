@@ -37,8 +37,7 @@ void TravelingState::_handle_turns(const std::shared_ptr<Game> &game, const std:
     {
         if(_random->get_int_between_values(1,50) == 2)
         {
-            std::cout << "You encountered a fight. press any number to continue" << std::endl;
-            std::cin >> input;
+            game->create_enemy();
             game->get_player()->set_fighting_state(true);
             game->set_state(std::make_shared<FightingState>());
             printer->print_fighting_menu();

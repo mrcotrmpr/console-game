@@ -2,6 +2,7 @@
 #include "models/good.hpp"
 #include "models/cannon.hpp"
 #include "models/destination.hpp"
+#include "utils/randomizer.hpp"
 
 #include "memory"
 #include <algorithm>
@@ -10,7 +11,8 @@
 
 Ship::Ship(const int ship_id, std::string ship_type) :
         _ship_id(ship_id),
-        _ship_type(std::move(ship_type)) {}
+        _ship_type(std::move(ship_type)),
+        _random(std::make_shared<Randomizer>()) {}
 
 int Ship::get_ship_id() const {
     return _ship_id;
@@ -107,6 +109,26 @@ void Ship::set_goods_used(int amount) {
 
 void Ship::set_cannons_used(int amount) {
     _cannons_used = amount;
+}
+
+int Ship::get_cannons_damage() const {
+    int total_damage = 0;
+    for(const auto& cannon : _cannons)
+    {
+        if(cannon->get_cannon_name() == "small")
+        {
+            total_damage += (_random->get_int_between_values(0, 2) * cannon->get_amount());
+        }
+        else if(cannon->get_cannon_name() == "medium")
+        {
+            total_damage += (_random->get_int_between_values(0, 4) * cannon->get_amount());
+        }
+        else
+        {
+            total_damage += (_random->get_int_between_values(0, 6) * cannon->get_amount());
+        }
+    }
+    return total_damage;
 }
 
 std::shared_ptr<Good> Ship::get_good(int id) const {
