@@ -5,6 +5,7 @@
 #include "models/good.hpp"
 #include "models/harbor.hpp"
 #include "ui/printer.hpp"
+#include "utils/writer.hpp"
 
 #include <iostream>
 
@@ -23,6 +24,7 @@ void SellingGoodsState::handle(std::shared_ptr<Game> game, std::shared_ptr<Print
             break;
         default:
             std::cout << "Invalid input: " << input << std::endl;
+            game->get_writer()->write_game_output("Invalid input");
             break;
     }
 }
@@ -30,15 +32,20 @@ void SellingGoodsState::handle(std::shared_ptr<Game> game, std::shared_ptr<Print
 void SellingGoodsState::_handle_sell_goods(const std::shared_ptr<Game> &game, const std::shared_ptr<Printer> &printer) {
     int id;
     std::cout << "Enter good id" << std::endl;
+    game->get_writer()->write_game_output("Enter good id");
     std::cin >> id;
+    game->get_writer()->write_player_input(std::to_string(id));
 
     auto good = game->get_player()->get_good(id);
     if(good != nullptr)
     {
         int amount;
         std::cout << "Enter amount:" << std::endl;
+        game->get_writer()->write_game_output("Enter amount:");
         std::cin >> amount;
-        if(_validate_sale(good, amount))
+        game->get_writer()->write_player_input(std::to_string(amount));
+
+        if(_validate_sale(game->get_writer(), good, amount))
         {
             game->get_player()->remove_good(id, amount);
             game->get_player()->set_gold(game->get_player()->get_gold() + (amount * good->get_price()));
@@ -50,10 +57,11 @@ void SellingGoodsState::_handle_sell_goods(const std::shared_ptr<Game> &game, co
     else
     {
         std::cout << "Invalid id" << std::endl;
+        game->get_writer()->write_game_output("Invalid id");
     }
 }
 
-bool SellingGoodsState::_validate_sale(const std::shared_ptr<Good> &good, int amount) {
+bool SellingGoodsState::_validate_sale(const std::shared_ptr<Writer>& writer, const std::shared_ptr<Good> &good, int amount) {
     if(good->get_amount() >= amount && amount > 0)
     {
         return true;
@@ -61,6 +69,7 @@ bool SellingGoodsState::_validate_sale(const std::shared_ptr<Good> &good, int am
     else
     {
         std::cout << "Not enough goods available" << std::endl;
+        writer->write_game_output("Not enough goods available");
         return false;
     }
 }

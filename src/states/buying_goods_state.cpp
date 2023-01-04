@@ -5,6 +5,7 @@
 #include "models/good.hpp"
 #include "models/ship.hpp"
 #include "ui/printer.hpp"
+#include "utils/writer.hpp"
 
 #include <iostream>
 
@@ -23,6 +24,7 @@ void BuyingGoodsState::handle(std::shared_ptr<Game> game, std::shared_ptr<Printe
             break;
         default:
             std::cout << "Invalid input: " << input << std::endl;
+            game->get_writer()->write_game_output("Invalid input");
             break;
     }
 }
@@ -30,16 +32,20 @@ void BuyingGoodsState::handle(std::shared_ptr<Game> game, std::shared_ptr<Printe
 void BuyingGoodsState::_handle_buy_goods(const std::shared_ptr<Game>& game, const std::shared_ptr<Printer>& printer) {
     int id;
     std::cout << "Enter good id" << std::endl;
+    game->get_writer()->write_game_output("Enter good id");
     std::cin >> id;
+    game->get_writer()->write_player_input(std::to_string(id));
 
     auto good = game->get_current_harbor()->get_good(id);
     if(good != nullptr)
     {
         int amount;
         std::cout << "Enter amount:" << std::endl;
+        game->get_writer()->write_game_output("Enter amount:");
         std::cin >> amount;
+        game->get_writer()->write_player_input(std::to_string(amount));
 
-        if(_validate_purchase(good, amount, game->get_player()))
+        if(_validate_purchase(good, amount, game))
         {
             game->get_player()->add_good(good, amount);
             game->get_player()->set_gold(game->get_player()->get_gold() - (good->get_price() * amount));
@@ -50,25 +56,28 @@ void BuyingGoodsState::_handle_buy_goods(const std::shared_ptr<Game>& game, cons
     else
     {
         std::cout << "Invalid id" << std::endl;
+        game->get_writer()->write_game_output("Invalid id");
     }
 }
 
-bool BuyingGoodsState::_validate_purchase(const std::shared_ptr<Good>& good, int amount, const std::shared_ptr<Ship>& player) {
-    if(good->get_amount() >= amount && amount > 0 && (player->get_goods_kg_used() + amount) <= player->get_max_goods_kg())
+bool BuyingGoodsState::_validate_purchase(const std::shared_ptr<Good>& good, int amount, const std::shared_ptr<Game>& game) {
+    if(good->get_amount() >= amount && amount > 0 && (game->get_player()->get_goods_kg_used() + amount) <= game->get_player()->get_max_goods_kg())
     {
-        if (player->get_gold() >= (good->get_price() * amount))
+        if (game->get_player()->get_gold() >= (good->get_price() * amount))
         {
             return true;
         }
         else
         {
             std::cout << "Not enough gold available" << std::endl;
+            game->get_writer()->write_game_output("Not enough gold available");
             return false;
         }
     }
     else
     {
         std::cout << "Not enough goods or space available" << std::endl;
+        game->get_writer()->write_game_output("Not enough goods or space available");
         return false;
     }
 }

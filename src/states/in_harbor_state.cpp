@@ -52,10 +52,8 @@ void InHarborState::handle(std::shared_ptr<Game> game, std::shared_ptr<Printer> 
             game->stop();
             break;
         default:
+            game->get_writer()->write_game_output("Invalid input");
             std::cout << "Invalid input: " << input << std::endl;
-            std::stringstream ss;
-            ss << "Invalid input: " << input;
-            game->get_writer()->write_game_output(ss.str());
             break;
     }
 }
