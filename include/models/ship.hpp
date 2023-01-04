@@ -50,6 +50,7 @@ public:
     void set_string_value(const char* column_name, const char* value) override;
     void add_good(const std::shared_ptr<Good>& goods, int amount);
     void add_cannon(const std::shared_ptr<Cannon>& cannons, int amount);
+    void clear_cargo();
 private:
     int _ship_id{};
     int _price{};

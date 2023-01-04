@@ -282,3 +282,7 @@ std::shared_ptr<Destination> Ship::get_destination() const {
 void Ship::set_destination(const std::shared_ptr<Destination>& destination) {
     _destination = destination;
 }
+
+void Ship::clear_cargo() {
+    _goods.clear();
+}

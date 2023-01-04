@@ -114,6 +114,7 @@ void FightingState::_handle_fight(const std::shared_ptr<Game>& game, const std::
                 game->get_writer()->write_game_output("Press any number to continue");
                 std::cin >> input;
                 game->get_writer()->write_player_input(std::to_string(input));
+                game->get_player()->clear_cargo();
                 game->get_player()->set_fighting_state(false);
                 game->set_state(std::make_shared<TravelingState>());
                 printer->print_traveling_menu();
