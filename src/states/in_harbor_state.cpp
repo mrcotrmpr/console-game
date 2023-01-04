@@ -6,10 +6,13 @@
 #include "states/buying_ship_state.hpp"
 #include "states/repairing_ship_state.hpp"
 #include "states/picking_destination_state.hpp"
-
-#include <iostream>
 #include "models/game.hpp"
 #include "ui/printer.hpp"
+#include "utils/writer.hpp"
+
+#include <iostream>
+#include <sstream>
+
 
 void InHarborState::handle(std::shared_ptr<Game> game, std::shared_ptr<Printer> printer, int input)
 {
@@ -49,6 +52,7 @@ void InHarborState::handle(std::shared_ptr<Game> game, std::shared_ptr<Printer> 
             game->stop();
             break;
         default:
+            game->get_writer()->write_game_output("Invalid input");
             std::cout << "Invalid input: " << input << std::endl;
             break;
     }

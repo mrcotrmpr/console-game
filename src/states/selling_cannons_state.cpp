@@ -5,6 +5,7 @@
 #include "models/cannon.hpp"
 #include "models/harbor.hpp"
 #include "ui/printer.hpp"
+#include "utils/writer.hpp"
 
 #include <iostream>
 
@@ -23,6 +24,7 @@ void SellingCannonsState::handle(std::shared_ptr<Game> game, std::shared_ptr<Pri
             break;
         default:
             std::cout << "Invalid input: " << input << std::endl;
+            game->get_writer()->write_game_output("Invalid input");
             break;
     }
 }
@@ -30,15 +32,20 @@ void SellingCannonsState::handle(std::shared_ptr<Game> game, std::shared_ptr<Pri
 void SellingCannonsState::_handle_sell_cannons(const std::shared_ptr<Game> &game, const std::shared_ptr<Printer> &printer) {
     int id;
     std::cout << "Enter cannon id" << std::endl;
+    game->get_writer()->write_game_output("Enter cannon id");
     std::cin >> id;
+    game->get_writer()->write_player_input(std::to_string(id));
 
     auto cannon = game->get_player()->get_cannon(id);
     if(cannon != nullptr)
     {
         int amount;
         std::cout << "Enter amount:" << std::endl;
+        game->get_writer()->write_game_output("Enter amount");
         std::cin >> amount;
-        if(_validate_sale(cannon, amount))
+        game->get_writer()->write_player_input(std::to_string(amount));
+
+        if(_validate_sale(game->get_writer(), cannon, amount))
         {
             game->get_player()->remove_cannon(id, amount);
             game->get_player()->set_gold(game->get_player()->get_gold() + (amount * cannon->get_cannon_price()));
@@ -50,17 +57,19 @@ void SellingCannonsState::_handle_sell_cannons(const std::shared_ptr<Game> &game
     else
     {
         std::cout << "Invalid id" << std::endl;
+        game->get_writer()->write_game_output("Invalid id");
     }
 }
 
-bool SellingCannonsState::_validate_sale(const std::shared_ptr<Cannon> &cannon, int amount) {
+bool SellingCannonsState::_validate_sale(const std::shared_ptr<Writer>& writer, const std::shared_ptr<Cannon> &cannon, int amount) {
     if(cannon->get_amount() >= amount && amount > 0)
     {
         return true;
     }
     else
     {
-        std::cout << "Not enough goods available" << std::endl;
+        std::cout << "Not enough cannons available" << std::endl;
+        writer->write_game_output("Not enough cannons available");
         return false;
     }
 }

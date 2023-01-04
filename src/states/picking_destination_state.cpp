@@ -6,6 +6,7 @@
 #include "models/destination.hpp"
 #include "models/ship.hpp"
 #include "ui/printer.hpp"
+#include "utils/writer.hpp"
 
 #include <iostream>
 
@@ -24,6 +25,7 @@ void PickingDestinationState::handle(std::shared_ptr<Game> game, std::shared_ptr
             break;
         default:
             std::cout << "Invalid input: " << input << std::endl;
+            game->get_writer()->write_game_output("Invalid input");
             break;
     }
 }
@@ -31,7 +33,9 @@ void PickingDestinationState::handle(std::shared_ptr<Game> game, std::shared_ptr
 void PickingDestinationState::_handle_pick_destination(const std::shared_ptr<Game> &game, const std::shared_ptr<Printer> &printer) {
     int id;
     std::cout << "Enter destination id" << std::endl;
+    game->get_writer()->write_game_output("Enter destination id");
     std::cin >> id;
+    game->get_writer()->write_player_input(std::to_string(id));
 
     auto destination = game->get_current_harbor()->get_destination(id);
     if(destination != nullptr)
@@ -43,5 +47,6 @@ void PickingDestinationState::_handle_pick_destination(const std::shared_ptr<Gam
     else
     {
         std::cout << "Invalid id" << std::endl;
+        game->get_writer()->write_game_output("Invalid id");
     }
 }

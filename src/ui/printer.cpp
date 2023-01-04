@@ -1,4 +1,5 @@
 #include "ui/printer.hpp"
+#include "utils/writer.hpp"
 #include "models/game.hpp"
 #include "models/harbor.hpp"
 #include "models/ship.hpp"
@@ -18,175 +19,193 @@ void Printer::set_game(std::shared_ptr<Game> game)
 
 void Printer::print_resources()
 {
-    print_in_harbor_menu();
-    std::cout << std::endl << "Current harbor: " << _game->get_current_harbor()->get_harbor_name() << std::endl << std::endl;
-    std::cout << "Current ship: " << _game->get_player()->get_ship_type() << std::endl;
-    std::cout << "Current specialty: " << _game->get_player()->get_specialty() << std::endl;
-    std::cout << "Current ship worth: " << _game->get_player()->get_ship_price() << std::endl;
-    std::cout << "Current gold: " << _game->get_player()->get_gold() << std::endl;
-    std::cout << "Current health: " << _game->get_player()->get_health() << "/" << _game->get_player()->get_max_health() << std::endl << std::endl;
+    std::string harbor_name = _game->get_current_harbor()->get_harbor_name();
+    std::string ship_type = _game->get_player()->get_ship_type();
+    std::string specialty = _game->get_player()->get_specialty();
+    std::string ship_price = std::to_string(_game->get_player()->get_ship_price());
+    std::string gold = std::to_string(_game->get_player()->get_gold());
+    std::string health = std::to_string(_game->get_player()->get_health());
+    std::string max_health = std::to_string(_game->get_player()->get_max_health());
+    std::string goods_kg_used = std::to_string(_game->get_player()->get_goods_kg_used());
+    std::string max_goods_kg = std::to_string(_game->get_player()->get_max_goods_kg());
+    std::string cannons_used = std::to_string(_game->get_player()->get_cannons_used());
+    std::string max_cannons = std::to_string(_game->get_player()->get_max_cannons());
 
-    std::cout << "Current cargo space: " << _game->get_player()->get_goods_kg_used() << "/" << _game->get_player()->get_max_goods_kg() << std::endl;
-    std::cout << "Current goods: " << std::endl;
+    std::string player_info_str = "Current harbor: "
+                              + harbor_name + "\n" + "\n"
+                              + "Current ship: " + ship_type + "\n"
+                              + "Current specialty: " + specialty + "\n"
+                              + "Current ship worth: " + ship_price + "\n"
+                              + "Current gold: " + gold + "\n"
+                              + "Current health: " + health + "/" + max_health + "\n" + "\n"
+                              + "Current cargo space: " + goods_kg_used + "/" + max_goods_kg + "\n"
+                              + "Current goods: " + "\n";
     for (const auto& good : _game->get_player()->get_goods())
     {
-        std::cout << "[" << good->get_good_id() << "] " << good->get_good_name();
-        std::cout << " -- Amount: " << good->get_amount() << " kg";
-        std::cout << " -- Value: " << good->get_price() * good->get_amount() << " gold" << std::endl;
+        player_info_str += "[" + std::to_string(good->get_good_id()) + "] " + good->get_good_name();
+        player_info_str += " -- Amount: " + std::to_string(good->get_amount()) + " kg";
+        player_info_str += " -- Value: " + std::to_string(good->get_price() * good->get_amount()) + " gold" + "\n";
     }
-    std::cout << std::endl << "Current cannons used: " << _game->get_player()->get_cannons_used() << "/" << _game->get_player()->get_max_cannons() << std::endl;
-    std::cout << "Current cannons: " << std::endl;
+    player_info_str += "\n" "Current cannons used: " + cannons_used + "/" + max_cannons + "\n"
+                   + "Current cannons: " + "\n";
     for (const auto& cannon : _game->get_player()->get_cannons())
     {
-        std::cout << "[" << cannon->get_cannon_id() << "] " << cannon->get_cannon_name();
-        std::cout << " -- Amount: " << cannon->get_amount();
-        std::cout << " -- Value: " << cannon->get_cannon_price() * cannon->get_amount() << " gold" << std::endl;
+        player_info_str += "[" + std::to_string(cannon->get_cannon_id()) + "] " + cannon->get_cannon_name();
+        player_info_str += " -- Amount: " + std::to_string(cannon->get_amount());
+        player_info_str += " -- Value: " + std::to_string(cannon->get_cannon_price() * cannon->get_amount()) + " gold" + "\n";
     }
-    
+
+
+    system("CLS");
+    print_in_harbor_menu();
+    std::cout << player_info_str << std::endl;
+    _game->get_writer()->write_game_output(player_info_str);
 }
 
 void Printer::print_in_harbor_menu() 
 {
+    std::string menu_str = R"(
+[1] View your resources
+[2] Buy goods
+[3] Sell goods
+[4] Buy cannons
+[5] Sell cannons
+[6] Buy new ship
+[7] Repair ship
+[8] Pick a destination
+[9] Quit the game
+    )";
     system("CLS");
-    std::cout << "[1] View your resources" << std::endl;
-    std::cout << "[2] Buy goods" << std::endl;
-    std::cout << "[3] Sell goods" << std::endl;
-    std::cout << "[4] Buy cannons" << std::endl;
-    std::cout << "[5] Sell cannons" << std::endl;
-    std::cout << "[6] Buy new ship" << std::endl;
-    std::cout << "[7] Repair ship" << std::endl;
-    std::cout << "[8] Pick a destination" << std::endl;
-    std::cout << "[9] Quit the game" << std::endl;
+    std::cout << menu_str << std::endl;
+    _game->get_writer()->write_game_output(menu_str);
 }
 
 void Printer::print_buying_goods_menu()
 {
-    system("CLS");
-    std::cout << "Buying goods" << std::endl << std::endl;
-    std::cout << "[0] Return to harbor" << std::endl;
-    std::cout << "[1] Buy goods" << std::endl;
-    std::cout << "[9] Quit the game" << std::endl;
-    std::cout << std::endl << "Goods in current harbor:" << std::endl;
-    for (const auto& good : _game->get_current_harbor()->get_goods())
-    {
-        std::cout << "[" << good->get_good_id() << "] " << good->get_good_name();
-        std::cout << " -- Amount: " << good->get_amount() << " kg";
-        std::cout << " -- Price: " << good->get_price() << " gold per kg" << std::endl;
+    std::string buy_goods_str = "\nBuying goods\n\n[0] Return to harbor\n[1] Buy goods\n[9] Quit the game\n\nGoods in current harbor:\n";
+    for (const auto& good : _game->get_current_harbor()->get_goods()) {
+        buy_goods_str += "[" + std::to_string(good->get_good_id()) + "] " + good->get_good_name() +
+                " -- Amount: " + std::to_string(good->get_amount()) + " kg" +
+                " -- Price: " + std::to_string(good->get_price()) + " gold per kg" + "\n";
     }
+    system("CLS");
+    std::cout << buy_goods_str << std::endl;
+    _game->get_writer()->write_game_output(buy_goods_str);
 }
 
 void Printer::print_selling_goods_menu()
 {
-    system("CLS");
-    std::cout << "Selling goods" << std::endl << std::endl;
-    std::cout << "[0] Return to harbor" << std::endl;
-    std::cout << "[1] Sell goods" << std::endl;
-    std::cout << "[9] Quit the game" << std::endl;
-    std::cout << std::endl << "Current goods:" << std::endl;
-    for (const auto& good : _game->get_player()->get_goods())
-    {
-        std::cout << "[" << good->get_good_id() << "] " << good->get_good_name();
-        std::cout << " -- Amount: " << good->get_amount() << " kg";
-        std::cout << " -- Value: " << good->get_price() * good->get_amount() << " gold total" << std::endl;
+    std::string sell_goods_str = "\nSelling goods\n\n[0] Return to harbor\n[1] Sell goods\n[9] Quit the game\n\nCurrent goods:\n";
+    for (const auto& good : _game->get_player()->get_goods()) {
+        sell_goods_str += "[" + std::to_string(good->get_good_id()) + "] " + good->get_good_name() +
+                         " -- Amount: " + std::to_string(good->get_amount()) + " kg" +
+                         " -- Price: " + std::to_string(good->get_price() * good->get_amount()) + " gold total" + "\n";
     }
+    system("CLS");
+    std::cout << sell_goods_str << std::endl;
+    _game->get_writer()->write_game_output(sell_goods_str);
 }
 
 void Printer::print_buying_cannons_menu()
 {
-    system("CLS");
-    std::cout << "Buying cannons" << std::endl << std::endl;
-    std::cout << "[0] Return to harbor" << std::endl;
-    std::cout << "[1] Buy cannons" << std::endl;
-    std::cout << "[9] Quit the game" << std::endl;
-    std::cout << std::endl << "Cannons in current harbor:" << std::endl;
-    for (const auto& cannon : _game->get_current_harbor()->get_cannons())
-    {
-        std::cout << "[" << cannon->get_cannon_id() << "] " << cannon->get_cannon_name();
-        std::cout << " -- Amount: " << cannon->get_amount();
-        std::cout << " -- Price: " << cannon->get_cannon_price() << " gold per cannon" << std::endl;
+    std::string buy_cannons_str = "\nBuying cannons\n\n[0] Return to harbor\n[1] Buy cannons\n[9] Quit the game\n\nCannons in current harbor:\n";
+    for (const auto& cannon : _game->get_current_harbor()->get_cannons()) {
+        buy_cannons_str += "[" + std::to_string(cannon->get_cannon_id()) + "] " + cannon->get_cannon_name() +
+                         " -- Amount: " + std::to_string(cannon->get_amount()) +
+                         " -- Price: " + std::to_string(cannon->get_cannon_price()) + " gold per cannon" + "\n";
     }
+    system("CLS");
+    std::cout << buy_cannons_str << std::endl;
+    _game->get_writer()->write_game_output(buy_cannons_str);
 }
 
-void Printer::print_selling_cannons_menu() {
-    system("CLS");
-    std::cout << "Selling cannons" << std::endl << std::endl;
-    std::cout << "[0] Return to harbor" << std::endl;
-    std::cout << "[1] Sell cannons" << std::endl;
-    std::cout << "[9] Quit the game" << std::endl;
-    std::cout << std::endl << "Current cannons:" << std::endl;
-    for (const auto& cannon : _game->get_player()->get_cannons())
-    {
-        std::cout << "[" << cannon->get_cannon_id() << "] " << cannon->get_cannon_name();
-        std::cout << " -- Amount: " << cannon->get_amount();
-        std::cout << " -- Value: " << cannon->get_cannon_price() * cannon->get_amount() << " gold total" << std::endl;
+void Printer::print_selling_cannons_menu()
+{
+    std::string sell_cannons_str = "\nSelling cannons\n\n[0] Return to harbor\n[1] Sell cannons\n[9] Quit the game\n\nCurrent cannons:\n";
+    for (const auto& cannon : _game->get_player()->get_cannons()) {
+        sell_cannons_str += "[" + std::to_string(cannon->get_cannon_id()) + "] " + cannon->get_cannon_name() +
+                          " -- Amount: " + std::to_string(cannon->get_amount()) + " kg" +
+                          " -- Value: " + std::to_string(cannon->get_cannon_price() * cannon->get_amount()) + " gold total" + "\n";
     }
+    system("CLS");
+    std::cout << sell_cannons_str << std::endl;
+    _game->get_writer()->write_game_output(sell_cannons_str);
 }
 
 void Printer::print_buying_ship_menu()
 {
-    system("CLS");
-    std::cout << "Buying ship" << std::endl << std::endl;
-    std::cout << "[0] Return to harbor" << std::endl;
-    std::cout << "[1] Buy a new ship" << std::endl;
-    std::cout << "[9] Quit the game" << std::endl;
-    std::cout << std::endl << "Ships in current harbor:" << std::endl;
-    for (const auto& ship : _game->get_current_harbor()->get_ships())
-    {
-        std::cout << "[" << ship->get_ship_id() << "] " << ship->get_ship_type() << std::endl;
-        std::cout << " -- Price: " << ship->get_ship_price() << std::endl;
-        std::cout << " -- Health: " << ship->get_max_health() << std::endl;
-        std::cout << " -- Speciality: " << ship->get_specialty() << std::endl;
-        std::cout << " -- Max cargo space: " << ship->get_max_goods_kg() << std::endl;
-        std::cout << " -- Max cannons: " << ship->get_max_cannons() << std::endl << std::endl;
+    std::string buy_ship_str = "\nBuying ship\n\n[0] Return to harbor\n[1] Buy a new ship\n[9] Quit the game\n\nShips in current harbor:\n";
+    for (const auto& ship : _game->get_current_harbor()->get_ships()) {
+        buy_ship_str += "[" + std::to_string(ship->get_ship_id()) + "] " + ship->get_ship_type() +
+                           " -- Price: " + std::to_string(ship->get_ship_price()) +
+                           " -- Health: " + std::to_string(ship->get_max_health()) +
+                           " -- Speciality: " + ship->get_specialty() +
+                           " -- Max cargo space: " + std::to_string(ship->get_max_goods_kg()) +
+                           " -- Max cannons: " + std::to_string(ship->get_max_cannons()) + "\n";
     }
+    system("CLS");
+    std::cout << buy_ship_str << std::endl;
+    _game->get_writer()->write_game_output(buy_ship_str);
 }
 
 void Printer::print_repairing_ship_menu()
 {
+    std::string repair_ship_str = "Repairing ship\n\nCurrent health: " + std::to_string(_game->get_player()->get_health()) +
+            "/" + std::to_string(_game->get_player()->get_max_health()) +
+            "\n\n[0] Return to harbor\n[1] Repair ship\n[9] Quit the game\n";
     system("CLS");
-    std::cout << "Repairing ship" << std::endl << std::endl;
-    std::cout << "Current health: " << _game->get_player()->get_health() << "/" << _game->get_player()->get_max_health() << std::endl;
-    std::cout << "[0] Return to harbor" << std::endl;
-    std::cout << "[1] Repair ship" << std::endl;
-    std::cout << "[9] Quit the game" << std::endl;
+    std::cout << repair_ship_str << std::endl;
+    _game->get_writer()->write_game_output(repair_ship_str);
 }
 
 void Printer::print_picking_destination_menu()
 {
-    system("CLS");
-    std::cout << "Picking destination" << std::endl << std::endl;
-    std::cout << "[0] Return to harbor" << std::endl;
-    std::cout << "[1] Pick a destination" << std::endl;
-    std::cout << "[9] Quit the game" << std::endl;
-    std::cout << std::endl << "Available destinations from the current harbor:" << std::endl << std::endl;
-    for (const auto& destination : _game->get_current_harbor()->get_destinations())
-    {
-        std::cout << "[" << destination->get_to_id() << "] " << destination->get_name() << std::endl;
-        std::cout << " -- Distance: " << destination->get_distance() << std::endl << std::endl;
+    std::string picking_destination_str = "\nPicking destination\n\n[0] Return to harbor\n[1] Pick a destination\n[9] Quit the game\n\nAvailable destinations from the current harbor:\n";
+    for (const auto& destination : _game->get_current_harbor()->get_destinations()) {
+        picking_destination_str += "[" + std::to_string(destination->get_to_id()) + "] " + destination->get_name() +
+                         " -- Distance: " + std::to_string(destination->get_distance()) + "\n";
     }
+    system("CLS");
+    std::cout << picking_destination_str << std::endl;
+    _game->get_writer()->write_game_output(picking_destination_str);
 }
 
-void Printer::print_traveling_menu() {
+void Printer::print_traveling_menu()
+{
+    std::string traveling_str = "Traveling to " + _game->get_player()->get_destination()->get_name() +
+            "\n\n[1] Start traveling\n[9] Quit the game\n";
     system("CLS");
-    std::cout << "Traveling to " << _game->get_player()->get_destination()->get_name() << std::endl << std::endl;
-    std::cout << "[1] Start traveling" << std::endl;
-    std::cout << "[9] Quit the game" << std::endl;
+    std::cout << traveling_str << std::endl;
+    _game->get_writer()->write_game_output(traveling_str);
 }
 
-void Printer::print_fighting_menu() {
+void Printer::print_fighting_menu()
+{
+    std::string fight_menu_str = "You have encountered a fight\n[1] Start the fight\n";
     system("CLS");
-    std::cout << "You have encountered a fight" << std::endl;
-    std::cout << "[1] Start the fight" << std::endl;
+    std::cout << fight_menu_str << std::endl;
+    _game->get_writer()->write_game_output(fight_menu_str);
 }
 
-void Printer::print_fighting_options() {
+void Printer::print_fighting_options()
+{
+    std::string health = std::to_string(_game->get_player()->get_health());
+    std::string max_health = std::to_string(_game->get_player()->get_max_health());
+    std::string cannons_used = std::to_string(_game->get_player()->get_cannons_used());
+    std::string max_cannons = std::to_string(_game->get_player()->get_max_cannons());
+
+    std::string enemy_health = std::to_string(_game->get_enemy()->get_health());
+    std::string enemy_max_health = std::to_string(_game->get_enemy()->get_max_health());
+    std::string enemy_cannons_used = std::to_string(_game->get_enemy()->get_cannons_used());
+    std::string enemy_max_cannons = std::to_string(_game->get_enemy()->get_max_cannons());
+
+    std::string fight_options_str = "You are currently in a fight \n"
+                                    "Current health: " + health + "/" + max_health + "\n"
+                                  + "Current cannons used: " + cannons_used + "/" + max_cannons + "\n"
+                                  + "Enemy health: " + enemy_health + "/" + enemy_max_health + "\n"
+                                  + "Enemy cannons used: " + enemy_cannons_used + "/" + enemy_max_cannons + "\n"
+                                  + "\n\n[1] Shoot\n[2] Flee\n[3] Surrender\n";
     system("CLS");
-    std::cout << "You are currently in a fight" << std::endl;
-    std::cout << "Current health: " << _game->get_player()->get_health() << "/" << _game->get_player()->get_max_health() << std::endl;
-    std::cout << "Current cannons used: " << _game->get_player()->get_cannons_used() << "/" << _game->get_player()->get_max_cannons() << std::endl << std::endl;
-    std::cout << "Enemy health: " << _game->get_enemy()->get_health() << "/" << _game->get_enemy()->get_max_health() << std::endl;
-    std::cout << "Enemy cannons used: " << _game->get_enemy()->get_cannons_used() << "/" << _game->get_enemy()->get_max_cannons() << std::endl << std::endl;
-    std::cout << "[1] Shoot" << std::endl;
-    std::cout << "[2] Flee" << std::endl;
-    std::cout << "[3] Surrender" << std::endl;
+    std::cout << fight_options_str << std::endl;
+    _game->get_writer()->write_game_output(fight_options_str);
 }

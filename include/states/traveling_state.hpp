@@ -14,6 +14,7 @@ public:
     void handle(std::shared_ptr<Game> game, std::shared_ptr<Printer> printer, int input) override;
 private:
     void _handle_turns(const std::shared_ptr<Game>& game, const std::shared_ptr<Printer>& printer);
+    static void _print_turn(const std::shared_ptr<Game>& game);
     std::shared_ptr<Randomizer> _random;
 };
 

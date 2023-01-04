@@ -5,6 +5,7 @@
 #include "models/game.hpp"
 #include "models/ship.hpp"
 #include "utils/randomizer.hpp"
+#include "utils/writer.hpp"
 
 #include <iostream>
 
@@ -22,7 +23,8 @@ void FightingState::handle(std::shared_ptr<Game> game, std::shared_ptr<Printer> 
             game->stop();
             break;
         default:
-            std::cout << "Invalid input: " << input << std::endl;
+            std::cout << "Invalid input" << std::endl;
+            game->get_writer()->write_game_output("Invalid input");
             break;
     }
 }
@@ -39,10 +41,12 @@ void FightingState::_handle_fight(const std::shared_ptr<Game>& game, const std::
     while (alive && game->get_player()->get_fighting_state())
     {
         std::cin >> input;
+        game->get_writer()->write_player_input(std::to_string(input));
         switch (input) {
             case 1:
                 player_damage = player->get_cannons_damage();
                 std::cout << "You have shot at the enemy, dealing " << player_damage << " damage." << std::endl;
+                game->get_writer()->write_game_output("You have shot at the enemy, dealing " + std::to_string(player_damage) + " damage.");
                 enemy->set_health(enemy->get_health() - player_damage);
                 if(enemy->get_health() <= 0)
                 {
@@ -53,6 +57,7 @@ void FightingState::_handle_fight(const std::shared_ptr<Game>& game, const std::
                 {
                     enemy_damage = game->get_enemy()->get_cannons_damage();
                     std::cout << "The enemy shot at you, dealing " << enemy_damage << " damage." << std::endl;
+                    game->get_writer()->write_game_output("The enemy shot at you, dealing " + std::to_string(enemy_damage) + " damage.");
                     player->set_health(player->get_health() - enemy_damage);
                     if(player->get_health() <= 0)
                     {
@@ -60,8 +65,10 @@ void FightingState::_handle_fight(const std::shared_ptr<Game>& game, const std::
                     }
                     else
                     {
-                        std::cout << "Press any key to continue" << std::endl;
+                        std::cout << "Press any number to continue" << std::endl;
+                        game->get_writer()->write_game_output("Press any number to continue");
                         std::cin >> input;
+                        game->get_writer()->write_player_input(std::to_string(input));
                         printer->print_fighting_options();
                         break;
                     }
@@ -70,8 +77,11 @@ void FightingState::_handle_fight(const std::shared_ptr<Game>& game, const std::
                 if(_calculate_flee_chance(player->get_specialty(), enemy->get_specialty()))
                 {
                     std::cout << "You have fled successfully." << std::endl;
+                    game->get_writer()->write_game_output("You have fled successfully.");
                     std::cout << "Press any number to continue." << std::endl;
+                    game->get_writer()->write_game_output("Press any number to continue");
                     std::cin >> input;
+                    game->get_writer()->write_player_input(std::to_string(input));
                     player->set_fighting_state(false);
                     game->set_state(std::make_shared<TravelingState>());
                     printer->print_traveling_menu();
@@ -81,6 +91,7 @@ void FightingState::_handle_fight(const std::shared_ptr<Game>& game, const std::
                 {
                     enemy_damage = game->get_enemy()->get_cannons_damage();
                     std::cout << "Fleeing failed. The enemy shot at you with " << enemy_damage << " damage." << std::endl;
+                    game->get_writer()->write_game_output("Fleeing failed. The enemy shot at you with " + std::to_string(enemy_damage) + " damage.");
                     player->set_health(player->get_health() - enemy_damage);
                     if(player->get_health() <= 0)
                     {
@@ -88,16 +99,22 @@ void FightingState::_handle_fight(const std::shared_ptr<Game>& game, const std::
                     }
                     else
                     {
-                        std::cout << "Press any key to continue" << std::endl;
+                        std::cout << "Press any number to continue" << std::endl;
+                        game->get_writer()->write_game_output("Press any number to continue");
                         std::cin >> input;
+                        game->get_writer()->write_player_input(std::to_string(input));
                         printer->print_fighting_options();
                     }
                 }
                 break;
             case 3:
                 std::cout << "You have surrendered. You lost your cargo." << std::endl;
+                game->get_writer()->write_game_output("You have surrendered. You lost your cargo.");
                 std::cout << "Press any number to continue." << std::endl;
+                game->get_writer()->write_game_output("Press any number to continue");
                 std::cin >> input;
+                game->get_writer()->write_player_input(std::to_string(input));
+                game->get_player()->clear_cargo();
                 game->get_player()->set_fighting_state(false);
                 game->set_state(std::make_shared<TravelingState>());
                 printer->print_traveling_menu();
@@ -109,8 +126,11 @@ void FightingState::_handle_fight(const std::shared_ptr<Game>& game, const std::
     if(alive && won)
     {
         std::cout << std::endl << "You have won!" << std::endl;
+        game->get_writer()->write_game_output("You have won!");
         std::cout << "Press any number to continue" << std::endl;
+        game->get_writer()->write_game_output("Press any number to continue");
         std::cin >> input;
+        game->get_writer()->write_player_input(std::to_string(input));
         game->get_player()->set_fighting_state(false);
         game->set_state(std::make_shared<TravelingState>());
         printer->print_traveling_menu();
@@ -118,8 +138,11 @@ void FightingState::_handle_fight(const std::shared_ptr<Game>& game, const std::
     else if(!alive)
     {
         std::cout << "You have died." << std::endl;
+        game->get_writer()->write_game_output("You have died.");
         std::cout << "Press any number to start over" << std::endl;
+        game->get_writer()->write_game_output("Press any number to start over");
         std::cin >> input;
+        game->get_writer()->write_player_input(std::to_string(input));
         game->get_player()->set_fighting_state(false);
         game->start();
         game->set_state(std::make_shared<InHarborState>());
