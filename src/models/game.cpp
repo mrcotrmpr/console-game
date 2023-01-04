@@ -149,7 +149,7 @@ bool Game::is_won() const {
 }
 
 void Game::handle(int input) {
-    if(get_player()->get_gold() == 1000000)
+    if(get_player()->get_gold() >= 1000000)
     {
         _won = true;
     }
