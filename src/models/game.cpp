@@ -10,6 +10,7 @@
 #include "states/in_harbor_state.hpp"
 #include "database/database.hpp"
 #include "utils/randomizer.hpp"
+#include "utils/writer.hpp"
 
 #include <utility>
 #include <iostream>
@@ -19,10 +20,15 @@ Game::Game():
     _state(std::make_shared<InHarborState>()),
     _printer(std::make_shared<Printer>()),
     _db(std::make_shared<Database>()),
-    _random(std::make_shared<Randomizer>()) {}
+    _random(std::make_shared<Randomizer>()),
+    _writer(std::make_shared<Writer>()) {}
 
 void Game::set_state(std::shared_ptr<State> state) {
     _state = std::move(state);
+}
+
+std::shared_ptr<Writer> Game::get_writer() const {
+    return _writer;
 }
 
 std::shared_ptr<Harbor> Game::get_current_harbor() const {
@@ -117,6 +123,9 @@ void Game::_init() {
 
     // Setup printer
     _printer->set_game(shared_from_this());
+
+    // Clear session_log
+    _writer->clear();
 }
 
 void Game::start() {
