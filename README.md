@@ -1,3 +1,3 @@
 # CPLUS Console game
 
-CPLUS assignment for the minor System programming in C++
+School project vor programming in C++. A simple console game using sqlite.
